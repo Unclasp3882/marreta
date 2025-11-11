@@ -4,7 +4,7 @@
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/manualdousuario/marreta/blob/master/README.md)
 
 [![PHP 8.4+](https://img.shields.io/badge/PHP-8.4%2B-purple.svg)](https://www.php.net/)
-!![Docker Pulls](https://img.shields.io/docker/pulls/manualdousuario/marreta)(https://hub.docker.com/r/manualdousuario/marreta)
+[![Docker Pulls](https://img.shields.io/docker/pulls/manualdousuario/marreta)](https://hub.docker.com/r/manualdousuario/marreta)
 
 [![Forks](https://img.shields.io/github/forks/manualdousuario/marreta)](https://github.com/manualdousuario/marreta/network/members)
 [![Stars](https://img.shields.io/github/stars/manualdousuario/marreta)](https://github.com/manualdousuario/marreta/stargazers)
@@ -95,7 +95,7 @@ Para bloquear dominios por pedidos de DMCA, crie o arquivo `app/cache/dmca_domai
 
 Feito com ❤️! Se tiver dúvidas ou sugestões, abre uma issue que a gente ajuda! 😉
 
-Agradecimento ao projeto [https://github.com/burlesco/burlesco](Burlesco) e [https://github.com/nang-dev/hover-paywalls-browser-extension/](Hover) que serviu de base para varias regras!
+Agradecimento ao projeto [Burlesco](https://github.com/burlesco/burlesco) e [Hover](https://github.com/nang-dev/hover-paywalls-browser-extension/) que serviu de base para varias regras!
 
 ## Star History
 
