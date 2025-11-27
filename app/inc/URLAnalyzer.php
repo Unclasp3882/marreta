@@ -67,7 +67,8 @@ class URLAnalyzer extends URLAnalyzerBase
         // Check if domain is in DMCA list FIRST (before any HTTP requests)
         foreach (DMCA_DOMAINS as $dmcaEntry) {
             if (is_array($dmcaEntry) && isset($dmcaEntry['host'])) {
-                if ($dmcaEntry['host'] === $host || $dmcaEntry['host'] === $originalHost) {
+                $dmcaHost = $dmcaEntry['host'];
+                if (strpos($host, $dmcaHost) !== false || strpos($originalHost, $dmcaHost) !== false) {
                     Logger::getInstance()->logUrl($url, 'DMCA_DOMAIN');
                     $customMessage = isset($dmcaEntry['message']) ? $dmcaEntry['message'] : '';
                     $this->error->throwError(self::ERROR_DMCA_DOMAIN, $customMessage);
