@@ -61,14 +61,12 @@ class URLAnalyzer extends URLAnalyzerBase
             Logger::getInstance()->logUrl($url, 'RESTRICTED_URL');
             $this->error->throwError(self::ERROR_RESTRICTED_URL, '');
         }
-        $originalHost = parse_url($url, PHP_URL_HOST);
-        $host = preg_replace('/^www\./', '', $host);
 
         // Check if domain is in DMCA list FIRST (before any HTTP requests)
         foreach (DMCA_DOMAINS as $dmcaEntry) {
             if (is_array($dmcaEntry) && isset($dmcaEntry['host'])) {
                 $dmcaHost = $dmcaEntry['host'];
-                if (strpos($host, $dmcaHost) !== false || strpos($originalHost, $dmcaHost) !== false) {
+                if (strpos($url, $dmcaHost) !== false) {
                     Logger::getInstance()->logUrl($url, 'DMCA_DOMAIN');
                     $customMessage = isset($dmcaEntry['message']) ? $dmcaEntry['message'] : '';
                     $this->error->throwError(self::ERROR_DMCA_DOMAIN, $customMessage);
