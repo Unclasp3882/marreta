@@ -18,53 +18,6 @@ if ('serviceWorker' in navigator) {
  * Header toggle menus
  */
 document.addEventListener('DOMContentLoaded', function () {
-    const integration = document.querySelector('.integration');
-    const integrationToggle = document.querySelector('.integration__toggle');
-    const extension = document.querySelector('.extension');
-    const extensionToggle = document.querySelector('.extension__toggle');
-
-    // Function to close all menus
-    const closeAllMenus = () => {
-        integration.classList.remove('open');
-        extension.classList.remove('open');
-    };
-
-    // Function to close other menus except the one passed
-    const closeOtherMenus = (exceptMenu) => {
-        if (exceptMenu !== integration) {
-            integration.classList.remove('open');
-        }
-        if (exceptMenu !== extension) {
-            extension.classList.remove('open');
-        }
-    };
-
-    integrationToggle.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent click from bubbling to document
-        closeOtherMenus(integration);
-        integration.classList.toggle('open');
-    });
-
-    extensionToggle.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent click from bubbling to document
-        closeOtherMenus(extension);
-        extension.classList.toggle('open');
-    });
-
-    // Prevent clicks inside menus from closing them
-    integration.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-
-    extension.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-
-    // Close menus when clicking outside
-    document.addEventListener('click', () => {
-        closeAllMenus();
-    });
-
     // Remove toasty elements when clicked
     document.addEventListener('click', (e) => {
         const toastyElement = e.target.closest('.toasty');

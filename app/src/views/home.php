@@ -51,23 +51,9 @@
             <nav>
                 <a target="_blank" href="https://github.com/manualdousuario/marreta/wiki/API-Rest">API Rest</a>
                 <a target="_blank" href="https://github.com/manualdousuario/marreta/">Github</a>
-                <div class="integration">
-                    <button class="integration__toggle"><?php echo \Inc\Language::get('nav_integration'); ?><span class="arrow"></span></button>
-                    <div class="integration__menu">
-                        <a target="_blank" href="https://bsky.app/profile/marreta.pcdomanual.com"><span class="name">Bsky</span><span class="icon icon--bsky"></span></a>
-                        <a target="_blank" href="https://t.me/leissoai_bot"><span class="name">Telegram</span><span class="icon icon--telegram"></span></a>
-                        <a target="_blank" href="https://www.icloud.com/shortcuts/3594074b69ee4707af52ed78922d624f"><span class="name">MacOS</span><span class="icon icon--apple"></span></a>
-                    </div>
-                </div>
+                <a target="_blank" href="https://github.com/manualdousuario/marreta/blob/main/README.en.md#-integrations"><?php echo \Inc\Language::get('nav_integration'); ?></a>
             </nav>
             <div class="fast_buttons">
-                <div class="extension">
-                    <button class="extension__toggle"><?php echo \Inc\Language::get('nav_extension'); ?></button>
-                    <div class="extension__menu">
-                        <a target="_blank" href="https://addons.mozilla.org/pt-BR/firefox/addon/marreta/"><span class="name">Firefox</span><span class="icon icon--firefox"></span></a>
-                        <a target="_blank" href="https://chromewebstore.google.com/detail/marreta/ipelapagohjgjcgpncpbmaaacemafppe"><span class="name">Chrome</span><span class="icon icon--chrome"></span></a>
-                    </div>
-                </div>
                 <div class="theme-controls">
                     <button class="theme-toggle" id="themeToggle">
                         <span class="icon icon--sun"></span>
