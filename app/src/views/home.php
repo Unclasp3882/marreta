@@ -68,7 +68,7 @@
             <p class="walls_destroyed">
                 <strong><?php echo number_format($cache_folder, 0, ',', '.'); ?></strong> <span><?php echo \Inc\Language::get('walls_destroyed'); ?></span>
             </p>
-            <form id="urlForm" method="POST" onsubmit="return validateForm()" class="space-y-6">
+            <form id="urlForm" method="POST" class="space-y-6">
                 <div class="fields">
                     <div class="input">
                         <span class="icon icon--link"></span>
