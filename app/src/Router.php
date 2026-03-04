@@ -24,17 +24,35 @@ class Router
     {
         $this->dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
             // Main route - home page
-            $r->addRoute(['GET','POST'], '/', function() {
+            $r->addRoute(['GET'], '/', function() {
                 require_once __DIR__ . '/../config.php';
                 require_once __DIR__ . '/../inc/Cache.php';
                 require_once __DIR__ . '/../inc/Language.php';
 
                 \Inc\Language::init(LANGUAGE);
-                
+
+                // Check GET param
+                $url = isset($_GET['url']) ? trim($_GET['url']) : '';
+                if (!empty($url)) {
+                    if (!preg_match('#^https?://#', $url)) {
+                        $url = 'https://' . $url;
+                    }
+
+                    if (filter_var($url, FILTER_VALIDATE_URL)) {
+                        $sanitizedUrl = $this->sanitizeUrl($url);
+
+                        $processor = new URLProcessor($sanitizedUrl, false);
+                        $processor->process();
+                    } else {
+                        header('Location: /?message=INVALID_URL');
+                    }
+
+                    exit;
+                }
+
                 $message = '';
                 $message_type = '';
-                $url = '';
-                
+
                 // Sanitize and process query string messages
                 if (isset($_GET['message'])) {
                     $message_key = htmlspecialchars(trim($_GET['message']), ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -42,26 +60,11 @@ class Router
                     $message = htmlspecialchars($messageData['message'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
                     $message_type = htmlspecialchars($messageData['type'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
                 }
-                
-                // Process form submission
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url'])) {
-                    $originalUrl = trim($_POST['url']);
-                    if (filter_var($originalUrl, FILTER_VALIDATE_URL)) {
-                        $sanitizedUrl = $this->sanitizeUrl($originalUrl);
-                        if (!empty($sanitizedUrl)) {
-                            header('Location: ' . SITE_URL . '/p/' . $sanitizedUrl);
-                            exit;
-                        }
-                    }
-                    $messageData = \Inc\Language::getMessage('INVALID_URL');
-                    $message = $messageData['message'];
-                    $message_type = $messageData['type'];
-                }
-                
+
                 // Initialize cache for counting
                 $cache = new \Inc\Cache();
                 $cache_folder = $cache->getCacheFileCount();
-                
+
                 require __DIR__ . '/views/home.php';
             });
 
@@ -85,66 +88,6 @@ class Router
 
             // API route without parameters - redirects to root
             $r->addRoute('GET', '/api[/]', function() {
-                header('Location: /');
-                exit;
-            });
-
-            // Processing route - uses URLProcessor in web mode
-            $r->addRoute('GET', '/p/{url:.+}', function($vars) {
-                require_once __DIR__ . '/../config.php';
-                
-                $url = urldecode($vars['url']);
-                
-                $originalUrl = $vars['url'];
-                $needsRedirect = false;
-                
-                if ($originalUrl !== $url || preg_match('#^https?://#', $url)) {
-                    $needsRedirect = true;
-                }
-                
-                if (!preg_match('#^https?://#', $url)) {
-                    $url = 'https://' . $url;
-                }
-                
-                if (filter_var($url, FILTER_VALIDATE_URL)) {
-                    $sanitizedUrl = $this->sanitizeUrl($url);
-                    
-                    if ($needsRedirect && !empty($sanitizedUrl)) {
-                        header('Location: ' . SITE_URL . '/p/' . $sanitizedUrl);
-                        exit;
-                    }
-                    
-                    $processor = new URLProcessor($sanitizedUrl, false);
-                    $processor->process();
-                } else {
-                    header('Location: /?message=INVALID_URL');
-                    exit;
-                }
-            });
-            
-            // Processing route with query parameter or without parameters
-            $r->addRoute('GET', '/p[/]', function() {
-                if (isset($_GET['url']) || isset($_GET['text'])) {
-                    $originalUrl = isset($_GET['url']) ? trim($_GET['url']) : '';
-                    $originalText = isset($_GET['text']) ? trim($_GET['text']) : '';
-                    
-                    if (!empty($originalUrl) && filter_var($originalUrl, FILTER_VALIDATE_URL)) {
-                        $sanitizedUrl = $this->sanitizeUrl($originalUrl);
-                        if (!empty($sanitizedUrl)) {
-                            header('Location: /p/' . $sanitizedUrl);
-                            exit;
-                        }
-                    } elseif (!empty($originalText) && filter_var($originalText, FILTER_VALIDATE_URL)) {
-                        $sanitizedText = $this->sanitizeUrl($originalText);
-                        if (!empty($sanitizedText)) {
-                            header('Location: /p/' . $sanitizedText);
-                            exit;
-                        }
-                    } else {
-                        header('Location: /?message=INVALID_URL');
-                        exit;
-                    }
-                }
                 header('Location: /');
                 exit;
             });
