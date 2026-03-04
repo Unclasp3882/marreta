@@ -68,7 +68,7 @@
             <p class="walls_destroyed">
                 <strong><?php echo number_format($cache_folder, 0, ',', '.'); ?></strong> <span><?php echo \Inc\Language::get('walls_destroyed'); ?></span>
             </p>
-            <form id="urlForm" method="POST" class="space-y-6">
+            <form id="urlForm" method="POST" action="/" class="space-y-6">
                 <div class="fields">
                     <div class="input">
                         <span class="icon icon--link"></span>
@@ -79,7 +79,6 @@
                             value="<?php echo htmlspecialchars($url); ?>"
                             required
                             pattern="https?://.+"
-                            title="<?php echo \Inc\Language::getMessage('INVALID_URL')['message']; ?>"
                             autofocus>
                             <span class="paste" id="paste"><span class="icon icon--paste"></span></span>
                     </div>
@@ -116,7 +115,7 @@
                             <?php echo str_replace('{site_name}', SITE_NAME, \Inc\Language::get('bookmarklet_description')); ?>
                         </p>
                         <div>
-                            <a href="javascript:(function(){let currentUrl=window.location.href;window.location.href='<?php echo SITE_URL; ?>/p/'+encodeURIComponent(currentUrl);})()"
+                            <a href="javascript:(function(){let currentUrl=window.location.href.replace(/^https?:\/\//, '');window.location.href='<?php echo SITE_URL; ?>/p/'+encodeURIComponent(currentUrl);})()"
                                 onclick="return false;">
                                 <?php echo str_replace('{site_name}', SITE_NAME, \Inc\Language::get('open_in')); ?>
                             </a>

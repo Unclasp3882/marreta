@@ -26,7 +26,12 @@ class URLProcessor
     {
         require_once __DIR__ . '/../config.php';
 
-        $this->url = $url;
+        $processedUrl = $url;
+        if (!empty($url) && !preg_match('#^https?://#', $url)) {
+            $processedUrl = 'https://' . $url;
+        }
+
+        $this->url = $processedUrl;
         $this->isApi = $isApi;
         $this->analyzer = new URLAnalyzer();
 
@@ -76,7 +81,8 @@ class URLProcessor
             if (!$this->isApi) {
                 $redirectInfo = $this->analyzer->checkStatus($this->url);
                 if ($redirectInfo['hasRedirect'] && $redirectInfo['finalUrl'] !== $this->url) {
-                    $this->redirect(SITE_URL . '/p/' . urlencode($redirectInfo['finalUrl']));
+                    $finalUrl = preg_replace('#^https?://#', '', $redirectInfo['finalUrl']);
+                    $this->redirect(SITE_URL . '/p/' . urlencode($finalUrl));
                 }
             }
 
@@ -84,8 +90,9 @@ class URLProcessor
             $content = $this->analyzer->analyze($this->url);
 
             if ($this->isApi) {
+                $displayUrl = preg_replace('#^https?://#', '', $this->url);
                 $this->sendApiResponse([
-                    'url' => SITE_URL . '/p/' . $this->url
+                    'url' => SITE_URL . '/p/' . $displayUrl
                 ]);
             } else {
                 echo $content;

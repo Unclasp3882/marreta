@@ -45,15 +45,17 @@ class Router
                 
                 // Process form submission
                 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url'])) {
-                    $url = $this->sanitizeUrl($_POST['url']);
-                    if (filter_var($url, FILTER_VALIDATE_URL)) {
-                        header('Location: ' . SITE_URL . '/p/' . $url);
-                        exit;
-                    } else {
-                        $messageData = \Inc\Language::getMessage('INVALID_URL');
-                        $message = $messageData['message'];
-                        $message_type = $messageData['type'];
+                    $originalUrl = trim($_POST['url']);
+                    if (filter_var($originalUrl, FILTER_VALIDATE_URL)) {
+                        $sanitizedUrl = $this->sanitizeUrl($originalUrl);
+                        if (!empty($sanitizedUrl)) {
+                            header('Location: ' . SITE_URL . '/p/' . $sanitizedUrl);
+                            exit;
+                        }
                     }
+                    $messageData = \Inc\Language::getMessage('INVALID_URL');
+                    $message = $messageData['message'];
+                    $message_type = $messageData['type'];
                 }
                 
                 // Initialize cache for counting
@@ -65,8 +67,20 @@ class Router
 
             // API route - uses URLProcessor in API mode
             $r->addRoute('GET', '/api/{url:.+}', function($vars) {
-                $processor = new URLProcessor($this->sanitizeUrl($vars['url']), true);
-                $processor->process();
+                $url = urldecode($vars['url']);
+                
+                if (!preg_match('#^https?://#', $url)) {
+                    $url = 'https://' . $url;
+                }
+                
+                if (filter_var($url, FILTER_VALIDATE_URL)) {
+                    $sanitizedUrl = $this->sanitizeUrl($url);
+                    $processor = new URLProcessor($sanitizedUrl, true);
+                    $processor->process();
+                } else {
+                    header('Location: /?message=INVALID_URL');
+                    exit;
+                }
             });
 
             // API route without parameters - redirects to root
@@ -77,22 +91,55 @@ class Router
 
             // Processing route - uses URLProcessor in web mode
             $r->addRoute('GET', '/p/{url:.+}', function($vars) {
-                $processor = new URLProcessor($this->sanitizeUrl($vars['url']), false);
-                $processor->process();
+                require_once __DIR__ . '/../config.php';
+                
+                $url = urldecode($vars['url']);
+                
+                $originalUrl = $vars['url'];
+                $needsRedirect = false;
+                
+                if ($originalUrl !== $url || preg_match('#^https?://#', $url)) {
+                    $needsRedirect = true;
+                }
+                
+                if (!preg_match('#^https?://#', $url)) {
+                    $url = 'https://' . $url;
+                }
+                
+                if (filter_var($url, FILTER_VALIDATE_URL)) {
+                    $sanitizedUrl = $this->sanitizeUrl($url);
+                    
+                    if ($needsRedirect && !empty($sanitizedUrl)) {
+                        header('Location: ' . SITE_URL . '/p/' . $sanitizedUrl);
+                        exit;
+                    }
+                    
+                    $processor = new URLProcessor($sanitizedUrl, false);
+                    $processor->process();
+                } else {
+                    header('Location: /?message=INVALID_URL');
+                    exit;
+                }
             });
             
             // Processing route with query parameter or without parameters
             $r->addRoute('GET', '/p[/]', function() {
                 if (isset($_GET['url']) || isset($_GET['text'])) {
-                    $url = isset($_GET['url']) ? $this->sanitizeUrl($_GET['url']) : '';
-                    $text = isset($_GET['text']) ? $this->sanitizeUrl($_GET['text']) : '';
+                    $originalUrl = isset($_GET['url']) ? trim($_GET['url']) : '';
+                    $originalText = isset($_GET['text']) ? trim($_GET['text']) : '';
                     
-                    if (filter_var($url, FILTER_VALIDATE_URL)) {
-                        header('Location: /p/' . $url);
-                        exit;
-                    } elseif (filter_var($text, FILTER_VALIDATE_URL)) {
-                        header('Location: /p/' . $text);
-                        exit;
+                    if (!empty($originalUrl) && filter_var($originalUrl, FILTER_VALIDATE_URL)) {
+                        $sanitizedUrl = $this->sanitizeUrl($originalUrl);
+                        if (!empty($sanitizedUrl)) {
+                            header('Location: /p/' . $sanitizedUrl);
+                            exit;
+                        }
+                    } elseif (!empty($originalText) && filter_var($originalText, FILTER_VALIDATE_URL)) {
+                        $sanitizedText = $this->sanitizeUrl($originalText);
+                        if (!empty($sanitizedText)) {
+                            header('Location: /p/' . $sanitizedText);
+                            exit;
+                        }
                     } else {
                         header('Location: /?message=INVALID_URL');
                         exit;
@@ -134,10 +181,18 @@ class Router
             return '';
         }
         
-        $cleanedUrl = $parts['scheme'] . '://' . $parts['host'];
+        $cleanedUrl = $parts['host'];
         
         if (isset($parts['path'])) {
             $cleanedUrl .= $parts['path'];
+        }
+        
+        if (isset($parts['query'])) {
+            $cleanedUrl .= '?' . $parts['query'];
+        }
+        
+        if (isset($parts['fragment'])) {
+            $cleanedUrl .= '#' . $parts['fragment'];
         }
         
         // Remove control characters and sanitize
