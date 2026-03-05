@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Inc\Cache;
 use Inc\Language;
 use Inc\URLAnalyzer;
 use Inc\URLAnalyzer\URLAnalyzerException;
+use Inc\Cache;
 
 /**
  * URL Processor
@@ -81,7 +81,8 @@ class URLProcessor
             if (!$this->isApi) {
                 $redirectInfo = $this->analyzer->checkStatus($this->url);
                 if ($redirectInfo['hasRedirect'] && $redirectInfo['finalUrl'] !== $this->url) {
-                    $this->redirect(SITE_URL . '/p/' . urlencode($redirectInfo['finalUrl']));
+                    $finalUrl = preg_replace('#^https?://#', '', $redirectInfo['finalUrl']);
+                    $this->redirect(SITE_URL . '/p/' . urlencode($finalUrl));
                 }
             }
 
@@ -89,8 +90,9 @@ class URLProcessor
             $content = $this->analyzer->analyze($this->url);
 
             if ($this->isApi) {
+                $displayUrl = preg_replace('#^https?://#', '', $this->url);
                 $this->sendApiResponse([
-                    'url' => SITE_URL . '/p/' . urlencode($this->url),
+                    'url' => SITE_URL . '/p/' . $displayUrl
                 ]);
             } else {
                 echo $content;
@@ -123,7 +125,7 @@ class URLProcessor
                     $url = ''; // Initialize url variable for the view
                     
                     // Initialize cache for counting
-                    $cache = new Cache();
+                    $cache = new \Inc\Cache();
                     $cache_folder = $cache->getCacheFileCount();
                     
                     require __DIR__ . '/views/home.php';
