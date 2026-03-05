@@ -34,19 +34,13 @@ class Router
                 // Check GET param
                 $url = isset($_GET['url']) ? trim($_GET['url']) : '';
                 if (!empty($url)) {
-                    if (!preg_match('#^https?://#', $url)) {
-                        $url = 'https://' . $url;
-                    }
-
-                    if (filter_var($url, FILTER_VALIDATE_URL)) {
-                        $sanitizedUrl = $this->sanitizeUrl($url);
-
-                        $processor = new URLProcessor($sanitizedUrl, false);
-                        $processor->process();
-                    } else {
+                    $sanitizedUrl = $this->processUrl($url);
+                    if (empty($sanitizedUrl)) {
                         header('Location: /?message=INVALID_URL');
+                        exit;
                     }
 
+                    header('Location: ' . SITE_URL . '/p/' . urlencode($sanitizedUrl));
                     exit;
                 }
 
@@ -71,23 +65,62 @@ class Router
             // API route - uses URLProcessor in API mode
             $r->addRoute('GET', '/api/{url:.+}', function($vars) {
                 $url = urldecode($vars['url']);
-                
-                if (!preg_match('#^https?://#', $url)) {
-                    $url = 'https://' . $url;
-                }
-                
-                if (filter_var($url, FILTER_VALIDATE_URL)) {
-                    $sanitizedUrl = $this->sanitizeUrl($url);
-                    $processor = new URLProcessor($sanitizedUrl, true);
-                    $processor->process();
-                } else {
+
+                $sanitizedUrl = $this->processUrl($url);
+                if (empty($sanitizedUrl)) {
                     header('Location: /?message=INVALID_URL');
                     exit;
                 }
+
+                $processor = new URLProcessor($sanitizedUrl, true);
+                $processor->process();
             });
 
             // API route without parameters - redirects to root
             $r->addRoute('GET', '/api[/]', function() {
+                header('Location: /');
+                exit;
+            });
+
+            // Processing route - uses URLProcessor in web mode
+            $r->addRoute('GET', '/p/{url:.+}', function($vars) {
+                require_once __DIR__ . '/../config.php';
+
+                $url = urldecode($vars['url']);
+
+                $sanitizedUrl = $this->processUrl($url);
+                if (empty($sanitizedUrl)) {
+                    header('Location: /?message=INVALID_URL');
+                    exit;
+                }
+
+                $processor = new URLProcessor($sanitizedUrl, false);
+                $processor->process();
+            });
+
+            // Processing route with query parameter or without parameters
+            $r->addRoute('GET', '/p[/]', function() {
+                if (isset($_GET['url']) || isset($_GET['text'])) {
+                    $originalUrl = isset($_GET['url']) ? trim($_GET['url']) : '';
+                    $originalText = isset($_GET['text']) ? trim($_GET['text']) : '';
+
+                    if (!empty($originalUrl)) {
+                        $sanitizedUrl = $this->processUrl($originalUrl);
+                        if (!empty($sanitizedUrl)) {
+                            header('Location: /p/' . urlencode($sanitizedUrl));
+                            exit;
+                        }
+                    } else if (!empty($originalText)) {
+                        $sanitizedUrl = $this->processUrl($originalText);
+                        if (!empty($sanitizedUrl)) {
+                            header('Location: /p/' . urlencode($sanitizedUrl));
+                            exit;
+                        }
+                    }
+
+                    header('Location: /?message=INVALID_URL');
+                    exit;
+                }
                 header('Location: /');
                 exit;
             });
@@ -97,6 +130,24 @@ class Router
                 require __DIR__ . '/views/manifest.php';
             });
         });
+    }
+
+    /**
+     * Process and sanitize a valid URL
+     * @param string $url
+     * @return string
+     */
+    private function processUrl(string $url): string
+    {
+        if (!preg_match('#^https?://#', $url)) {
+            $url = 'https://' . $url;
+        }
+
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return '';
+        }
+
+        return $this->sanitizeUrl($url);
     }
 
     /**
@@ -142,8 +193,7 @@ class Router
         $cleanedUrl = preg_replace('/[\x00-\x1F\x7F]/', '', $cleanedUrl);
         $cleanedUrl = filter_var($cleanedUrl, FILTER_SANITIZE_URL);
         
-        // Convert special characters to HTML entities
-        return htmlspecialchars($cleanedUrl, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        return $cleanedUrl;
     }
 
     /**

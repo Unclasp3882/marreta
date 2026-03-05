@@ -38,7 +38,7 @@ $manifest = [
         ]
     ],
     'share_target' => [
-        'action' => '/',
+        'action' => '/p/',
         'method' => 'GET',
         'enctype' => 'application/x-www-form-urlencoded',
         'params' => [

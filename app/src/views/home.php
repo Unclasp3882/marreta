@@ -68,7 +68,7 @@
             <p class="walls_destroyed">
                 <strong><?php echo number_format($cache_folder, 0, ',', '.'); ?></strong> <span><?php echo \Inc\Language::get('walls_destroyed'); ?></span>
             </p>
-            <form id="urlForm" method="GET" class="space-y-6">
+            <form id="urlForm" method="GET" action="/" class="space-y-6">
                 <div class="fields">
                     <div class="input">
                         <span class="icon icon--link"></span>
@@ -115,7 +115,7 @@
                             <?php echo str_replace('{site_name}', SITE_NAME, \Inc\Language::get('bookmarklet_description')); ?>
                         </p>
                         <div>
-                            <a href="javascript:(function(){window.location.href='<?php echo SITE_URL; ?>?url='+encodeURIComponent(window.location.href);})()"
+                            <a href="javascript:(function(){window.location.href='<?php echo SITE_URL; ?>/p/'+encodeURIComponent(window.location.href);})()"
                                 onclick="return false;">
                                 <?php echo str_replace('{site_name}', SITE_NAME, \Inc\Language::get('open_in')); ?>
                             </a>
