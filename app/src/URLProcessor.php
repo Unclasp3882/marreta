@@ -2,10 +2,10 @@
 
 namespace App;
 
+use Inc\Cache;
 use Inc\Language;
 use Inc\URLAnalyzer;
 use Inc\URLAnalyzer\URLAnalyzerException;
-use Inc\Cache;
 
 /**
  * URL Processor
@@ -123,7 +123,7 @@ class URLProcessor
                     $url = ''; // Initialize url variable for the view
                     
                     // Initialize cache for counting
-                    $cache = new \Inc\Cache();
+                    $cache = new Cache();
                     $cache_folder = $cache->getCacheFileCount();
                     
                     require __DIR__ . '/views/home.php';
