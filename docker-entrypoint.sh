@@ -55,8 +55,14 @@ log_info "Adjusting directory permissions..."
 
 mkdir -p /app/cache /app/logs # Ensures directories exist
 mkdir -p /app/cache/database
-chown -R www-data:www-data /app/cache /app/logs
-chmod -R 775 /app/cache /app/logs
+
+chown -R www-data:www-data /app/cache /app/logs 2>/dev/null || true
+chown www-data:www-data /app/cache/database 2>/dev/null || true
+
+# Fix "Bad address" error occurs on QNAP/Synology NAS
+chmod -R 775 /app/logs 2>/dev/null || true
+chmod 775 /app/cache 2>/dev/null || true
+chmod 775 /app/cache/database 2>/dev/null || chmod 777 /app/cache/database 2>/dev/null || true
 
 log_success "Permissions adjusted"
 

@@ -43,20 +43,6 @@ Agora modifique com suas preferencias:
 
 `nano docker-compose.yml`
 
-```
-services:
-  marreta:
-    container_name: marreta
-    image: ghcr.io/manualdousuario/marreta:latest
-    ports:
-      - "80:80"
-    environment:
-      - SITE_NAME=
-      - SITE_DESCRIPTION=
-      - SITE_URL=
-      - LANGUAGE=
-```
-
 - `SITE_NAME`: Nome do seu Marreta
 - `SITE_DESCRIPTION`: Conta pra que serve
 - `SITE_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no docker-compose (ex: 8080:80), você também deve incluir a porta no SITE_URL (ex: https://seusite:8080)
