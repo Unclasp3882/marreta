@@ -21,44 +21,25 @@ class URLAnalyzerFetch extends URLAnalyzerBase
     /**
      * Sets up the fetch handler with error handling capability
      */
-    /** @var array List of available proxies */
-    private $proxyList = [];
-    
-    /** @var string Path to proxy cache file */
-    private $proxyCachePath = '';
-    
+    /** @var string|null Proxy URL from the PROXY_URL environment variable */
+    private $proxyUrl = null;
+
     public function __construct()
     {
         parent::__construct();
         $this->error = new URLAnalyzerError();
-        $this->proxyCachePath = __DIR__ . '/../../cache/proxy_list.json';
-        $this->loadProxyList();
-    }
-    
-    /**
-     * Loads proxy list from cache if available
-     */
-    private function loadProxyList()
-    {
-        if (isset($_ENV['PROXY_LIST']) && file_exists($this->proxyCachePath)) {
-            $cachedList = file_get_contents($this->proxyCachePath);
-            if (!empty($cachedList)) {
-                $this->proxyList = json_decode($cachedList, true);
-            }
+        if (isset($_ENV['PROXY_URL']) && !empty($_ENV['PROXY_URL'])) {
+            $this->proxyUrl = $_ENV['PROXY_URL'];
         }
     }
-    
+
     /**
-     * Gets a random proxy from the list
-     * @return string|null Random proxy URL or null if none available
+     * Gets the configured proxy URL
+     * @return string|null Proxy URL or null if not configured
      */
-    private function getRandomProxy()
+    private function getProxy()
     {
-        if (empty($this->proxyList)) {
-            return null;
-        }
-        
-        return $this->proxyList[array_rand($this->proxyList)];
+        return $this->proxyUrl;
     }
 
     /** 
@@ -153,7 +134,7 @@ class URLAnalyzerFetch extends URLAnalyzerBase
         $curl->setOpt(CURLOPT_ENCODING, '');
         
         if (isset($domainRules['proxy']) && $domainRules['proxy'] === true) {
-            $proxy = $this->getRandomProxy();
+            $proxy = $this->getProxy();
             if ($proxy) {
                 $curl->setOpt(CURLOPT_PROXY, $proxy);
             }
@@ -224,7 +205,7 @@ class URLAnalyzerFetch extends URLAnalyzerBase
         $curl->setUserAgent($this->getRandomUserAgent());
         
         if (isset($domainRules['proxy']) && $domainRules['proxy'] === true) {
-            $proxy = $this->getRandomProxy();
+            $proxy = $this->getProxy();
             if ($proxy) {
                 $curl->setOpt(CURLOPT_PROXY, $proxy);
             }
@@ -255,7 +236,7 @@ class URLAnalyzerFetch extends URLAnalyzerBase
         $curl->setUserAgent($this->getRandomUserAgent());
         
         if (isset($domainRules['proxy']) && $domainRules['proxy'] === true) {
-            $proxy = $this->getRandomProxy();
+            $proxy = $this->getProxy();
             if ($proxy) {
                 $curl->setOpt(CURLOPT_PROXY, $proxy);
             }
@@ -291,7 +272,7 @@ class URLAnalyzerFetch extends URLAnalyzerBase
         }
 
         $useProxy = isset($domainRules['proxy']) && $domainRules['proxy'] === true;
-        $proxy = $useProxy ? $this->getRandomProxy() : null;
+        $proxy = $useProxy ? $this->getProxy() : null;
 
         if ($browser === 'chrome') {
             $options = new ChromeOptions();

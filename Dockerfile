@@ -53,7 +53,6 @@ COPY default.conf /etc/nginx/sites-available/default
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /app/bin/cleanup
-RUN chmod +x /app/bin/proxy
 
 # Create cache, database, and logs folders
 RUN mkdir -p /app/cache /app/cache/database /app/logs
@@ -65,7 +64,6 @@ RUN chown -R www-data:www-data /app \
 # Configure Cron
 RUN touch /app/logs/cron.log
 RUN echo '0 * * * * root php "/app/bin/cleanup" >> /app/logs/cleanup.log 2>&1' >> /etc/crontab
-RUN echo '0 * * * * root php "/app/bin/proxy" >> /app/logs/proxy.log 2>&1' >> /etc/crontab
 
 EXPOSE 80
 
