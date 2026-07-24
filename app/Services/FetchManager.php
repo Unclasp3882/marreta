@@ -34,14 +34,18 @@ final class FetchManager
 
         $strategies = $this->strategyMap();
 
-        // Use domain-specific fetchStrategies if set
+        // Use domain-specific fetchStrategies if set (falls through to the normal cascade
+        // when it points at the browser but no browser endpoint is configured)
         $strategyName = $rules['fetchStrategies'] ?? null;
-        if ($strategyName && isset($strategies[$strategyName])) {
+        if ($strategyName && isset($strategies[$strategyName]) && $this->strategyAvailable($strategyName)) {
             return $strategies[$strategyName]->fetch($url, $rules);
         }
 
         // Cascade: cURL → Wayback → Browser
-        $cascade = ['fetchContent', 'fetchFromWaybackMachine', 'fetchFromSelenium'];
+        $cascade = array_filter(
+            ['fetchContent', 'fetchFromWaybackMachine', 'fetchFromSelenium'],
+            fn (string $name): bool => $this->strategyAvailable($name),
+        );
         $lastError = null;
 
         foreach ($cascade as $name) {
@@ -72,15 +76,12 @@ final class FetchManager
             'verify' => false,
             'curl' => [
                 CURLOPT_NOBODY => true,
-                CURLOPT_DNS_SERVERS => implode(',', config('marreta.dns_servers', ['8.8.8.8', '8.8.4.4'])),
             ],
         ];
 
         $headers = [
-            'User-Agent' => 'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.200 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
             'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'X-Forwarded-For' => '66.249.'.rand(64, 95).'.'.rand(1, 254),
-            'From' => 'googlebot(at)googlebot.com',
         ];
 
         try {
@@ -108,6 +109,14 @@ final class FetchManager
             'fetchFromWaybackMachine' => $this->waybackFetch,
             'fetchFromSelenium' => $this->browserFetch,
         ];
+    }
+
+    /**
+     * The browser strategy requires BROWSER_WS_ENDPOINT to be configured.
+     */
+    private function strategyAvailable(string $name): bool
+    {
+        return $name !== 'fetchFromSelenium' || config('marreta.browser.ws_endpoint') !== null;
     }
 
     /**

@@ -92,8 +92,7 @@ final class MarretaDataSeeder extends Seeder
             $unique[$domain] = true;
 
             BlockedDomain::create([
-                'domain' => (string) $domain,
-                'reason' => 'Imported from legacy blocked_domains.php',
+                'domain' => (string) $domain
             ]);
         }
     }
