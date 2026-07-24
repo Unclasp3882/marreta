@@ -59,8 +59,6 @@
         <main>
             <h2 class="description">{{ $site_description }}</h2>
 
-            <livewire:stats-counter :count="$cache_count" />
-
             <form id="urlForm" method="GET" action="/" class="space-y-6">
                 <div class="fields">
                     <div class="input">
