@@ -1,6 +1,8 @@
-FROM shinsenter/laravel:php8.4-fpm-nginx
+FROM shinsenter/laravel:php8.4-nginx
 
 WORKDIR /var/www/html
+
+RUN docker-php-ext-install sockets
 
 COPY . .
 
