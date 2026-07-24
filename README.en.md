@@ -46,7 +46,9 @@ Now modify with your preferences:
 - `APP_DESCRIPTION`: Explain what it's for
 - `APP_URL`: Where it will run, full address with `https://`. If you change the port in docker-compose (e.g., 8080:80), you must also include the port in APP_URL (e.g., https://yoursite:8080)
 - `APP_LOCALE`: pt-br (Brazilian Portuguese), en (English), es (Spanish), de-de (German), ru-ru (Russian)
- 
+- `ADMIN_EMAIL`: admin@marreta.local
+- `ADMIN_PASSWORD`: password
+
 Now just run `docker compose up -d`
 
 
