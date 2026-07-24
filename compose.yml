@@ -1,0 +1,30 @@
+services:
+  marreta:
+    container_name: marreta
+    image: ghcr.io/manualdousuario/marreta:latest
+    ports:
+      - "81:80"
+    volumes:
+      - ./storage/app:/var/www/html/storage/app
+    environment:
+      - APP_NAME=${APP_NAME:-Marreta}
+      - APP_KEY=${APP_KEY}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_URL=${APP_URL:-http://localhost}
+      - APP_LOCALE=${APP_LOCALE:-pt-br}
+      - APP_DESCRIPTION=${APP_DESCRIPTION:-Chapéu de paywall é marreta!}
+      - BROWSER_WS_ENDPOINT=${BROWSER_WS_ENDPOINT:-ws://marreta_browser:9222}
+      - PROXY_URL=${PROXY_URL:-}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@marreta.local}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-password}
+    depends_on:
+      - marreta_browser
+    restart: unless-stopped
+
+  marreta_browser:
+    container_name: marreta_browser
+    image: lightpanda/browser:nightly
+    command: ["/bin/lightpanda", "serve", "--host", "0.0.0.0", "--port", "9222"]
+    ports:
+      - "9222:9222"
+    restart: unless-stopped

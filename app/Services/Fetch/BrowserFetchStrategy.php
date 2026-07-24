@@ -40,7 +40,12 @@ final class BrowserFetchStrategy implements FetchStrategy
 
                 return $html;
             } finally {
-                $browser->close();
+                try {
+                    $browser->close();
+                } catch (\Throwable) {
+                    // Some CDP servers (e.g. Lightpanda) don't implement Browser.close;
+                    // the connection is cleaned up when the socket disconnects regardless.
+                }
             }
         } catch (MarretaException $e) {
             throw $e;
