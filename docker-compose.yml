@@ -1,12 +1,12 @@
 services:
   marreta:
     container_name: marreta
-    build: .
+    image: ghcr.io/manualdousuario/marreta:latest
     ports:
       - "80:80"
     volumes:
-      - ./storage/app/marreta-cache:/var/www/html/storage/app/marreta-cache
-      - ./database/database.sqlite:/var/www/html/database/database.sqlite
+      - ./cache:/cache
+      - ./database:/database
     environment:
       - APP_NAME=${APP_NAME:-Marreta}
       - APP_ENV=${APP_ENV:-production}
@@ -16,8 +16,10 @@ services:
       - APP_LOCALE=${APP_LOCALE:-pt-br}
       - APP_DESCRIPTION=${APP_DESCRIPTION:-Chapéu de paywall é marreta!}
       - DNS_SERVERS=${DNS_SERVERS:-1.1.1.1,8.8.8.8}
-      - BROWSER_WS_ENDPOINT=${BROWSER_WS_ENDPOINT:-ws://browser:9222}
+      - BROWSER_WS_ENDPOINT=${BROWSER_WS_ENDPOINT:-ws://marreta_browser:9222}
       - BROWSER_TIMEOUT_MS=${BROWSER_TIMEOUT_MS:-30000}
+      - CACHE_DIR=${CACHE_DIR:-/cache}
+      - DB_DATABASE=${DB_DATABASE:-/database/database.sqlite}
       - DISABLE_CACHE=${DISABLE_CACHE:-false}
       - CLEANUP_DAYS=${CLEANUP_DAYS:-7}
       - PROXY_URL=${PROXY_URL:-}
@@ -27,12 +29,10 @@ services:
       - browser
     restart: unless-stopped
 
-  browser:
-    container_name: marreta-browser
-    image: ghcr.io/browserless/chromium:v2.7.0
+  marreta_browser:
+    container_name: marreta_browser
+    image: lightpanda/browser:nightly
+    command: ["serve", "--host", "0.0.0.0", "--port", "9222"]
     ports:
-      - "9222:3000"
-    environment:
-      - TIMEOUT=30000
-      - MAX_CONCURRENT_SESSIONS=10
+      - "9222:9222"
     restart: unless-stopped

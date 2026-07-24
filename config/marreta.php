@@ -54,7 +54,7 @@ return [
 
     'cache' => [
         'disabled' => (bool) env('DISABLE_CACHE', false),
-        'directory' => storage_path('app/marreta-cache'),
+        'directory' => env('CACHE_DIR', base_path('cache')),
         'compress_level' => 3,
     ],
 
