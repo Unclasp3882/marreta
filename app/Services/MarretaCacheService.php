@@ -78,29 +78,6 @@ final class MarretaCacheService
         return $count;
     }
 
-    /**
-     * Remove cache files older than the given cutoff timestamp.
-     */
-    public function cleanup(int $cutoffTimestamp): int
-    {
-        $this->ensureDirectory();
-        $removed = 0;
-
-        foreach ($this->files->glob($this->path('*').'.gz') as $file) {
-            if ($this->files->lastModified($file) < $cutoffTimestamp) {
-                $this->files->delete($file);
-                $removed++;
-            }
-        }
-
-        Stat::updateOrCreate(
-            ['key' => 'cache_count'],
-            ['value' => $this->getCacheFileCount()]
-        );
-
-        return $removed;
-    }
-
     private function path(string $id): string
     {
         return config('marreta.cache.directory').DIRECTORY_SEPARATOR.$id.'.gz';
