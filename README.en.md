@@ -15,7 +15,7 @@ Marreta is a tool that breaks access barriers and elements that hinder reading!
 
 ![Before and after Marreta](https://github.com/manualdousuario/marreta/blob/main/screen.png?raw=true)
 
-Public instance at [marreta.pcdomanual.com](https://marreta.pcdomanual.com)!
+Public instance at [marreta.link](https://marreta.link)!
 
 ## ✨ What's Cool?
 
@@ -58,7 +58,7 @@ Now just run `docker compose up -d`
 - 🤖 **Telegram**: [Official Bot](https://t.me/leissoai_bot)
 - 🦊 **Firefox**: Extension by [Clarissa Mendes](https://claromes.com/pages/whoami) - [Download](https://addons.mozilla.org/en-US/firefox/addon/marreta/) | [Source Code](https://github.com/manualdousuario/marreta-extensao)
 - 🌀 **Chrome**: Extension by [Clarissa Mendes](https://claromes.com/pages/whoami) - [Download](https://chromewebstore.google.com/detail/marreta/ipelapagohjgjcgpncpbmaaacemafppe) | [Source Code](https://github.com/manualdousuario/marreta-extensao)
-- 🦋 **Bluesky**: Bot by [Joselito](https://bsky.app/profile/joseli.to) - [Profile](https://bsky.app/profile/marreta.pcdomanual.com) | [Source Code](https://github.com/manualdousuario/marreta-bot)
+- 🦋 **Bluesky**: Bot by [Joselito](https://bsky.app/profile/joseli.to) - [Profile](https://bsky.app/profile/marreta.link) | [Source Code](https://github.com/manualdousuario/marreta-bot)
 - 🍎 **Apple**: Integration with [Shortcuts](https://www.icloud.com/shortcuts/3594074b69ee4707af52ed78922d624f)
 
 ---

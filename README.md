@@ -15,7 +15,7 @@ Marreta é uma ferramenta que quebra barreiras de acesso e elementos que atrapal
 
 ![Antes e depois do Marreta](https://github.com/manualdousuario/marreta/blob/main/screen.png?raw=true)
 
-Instancia publica em [marreta.pcdomanual.com](https://marreta.pcdomanual.com)!
+Instancia publica em [marreta.link](https://marreta.link)!
 
 ## ✨ O que tem de legal?
 
@@ -57,7 +57,7 @@ Agora só rodar `docker compose up -d`
 - 🤖 **Telegram**: [Bot oficial](https://t.me/leissoai_bot)
 - 🦊 **Firefox**: Extensão por [Clarissa Mendes](https://claromes.com/pages/whoami) - [Baixar](https://addons.mozilla.org/pt-BR/firefox/addon/marreta/) | [Código fonte](https://github.com/manualdousuario/marreta-extensao)
 - 🌀 **Chrome**: Extensão por [Clarissa Mendes](https://claromes.com/pages/whoami) - [Baixar](https://chromewebstore.google.com/detail/marreta/ipelapagohjgjcgpncpbmaaacemafppe) | [Código fonte](https://github.com/manualdousuario/marreta-extensao)
-- 🦋 **Bluesky**: Bot por [Joselito](https://bsky.app/profile/joseli.to) - [Perfil](https://bsky.app/profile/marreta.pcdomanual.com) | [Código fonte](https://github.com/manualdousuario/marreta-bot)
+- 🦋 **Bluesky**: Bot por [Joselito](https://bsky.app/profile/joseli.to) - [Perfil](https://bsky.app/profile/marreta.link) | [Código fonte](https://github.com/manualdousuario/marreta-bot)
 - 🍎 **Apple**: Integração ao [Atalhos](https://www.icloud.com/shortcuts/3594074b69ee4707af52ed78922d624f)
 
 ---
