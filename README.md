@@ -4,6 +4,7 @@
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/manualdousuario/marreta/blob/master/README.md)
 
 [![PHP 8.4+](https://img.shields.io/badge/PHP-8.4%2B-purple.svg)](https://www.php.net/)
+[![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20.svg)](https://laravel.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/manualdousuario/marreta)](https://hub.docker.com/r/manualdousuario/marreta)
 
 [![Forks](https://img.shields.io/github/forks/manualdousuario/marreta)](https://github.com/manualdousuario/marreta/network/members)
@@ -21,7 +22,6 @@ Instancia publica em [marreta.pcdomanual.com](https://marreta.pcdomanual.com)!
 - Limpa e corrige URLs automaticamente
 - Remove parâmetros chatos de rastreamento
 - Força HTTPS pra manter tudo seguro
-- Troca de user agent pra evitar bloqueios
 - Deixa o HTML limpinho e otimizado
 - Conserta URLs relativas sozinho
 - Permite colocar seus próprios estilos e scripts
@@ -37,15 +37,15 @@ Instancia publica em [marreta.pcdomanual.com](https://marreta.pcdomanual.com)!
 
 Instale [Docker e Docker Compose](https://docs.docker.com/engine/install/)
 
-`curl -o ./docker-compose.yml https://raw.githubusercontent.com/manualdousuario/marreta/main/docker-compose.yml`
+`curl -o ./compose.yml https://raw.githubusercontent.com/manualdousuario/marreta/main/compose.yml`
 
 Agora modifique com suas preferencias:
 
-`nano docker-compose.yml`
+`nano compose.yml`
 
 - `APP_NAME`: Nome do seu Marreta
 - `APP_DESCRIPTION`: Conta pra que serve
-- `APP_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no docker-compose (ex: 8080:80), você também deve incluir a porta no APP_URL (ex: https://seusite:8080)
+- `APP_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no compose.yml (ex: 8080:80), você também deve incluir a porta no APP_URL (ex: https://seusite:8080)
 - `APP_LOCALE`: pt-br (Português Brasil), en (Inglês), es (Espanhol) ou de-de (Alemão), ru-ru (Russo)
 - `ADMIN_EMAIL`: admin@marreta.local
 - `ADMIN_PASSWORD`: password
