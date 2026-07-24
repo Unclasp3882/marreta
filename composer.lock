@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43bc61ffbf39fedb6f934290bc5fadf6",
+    "content-hash": "4b8ce4c8ae1ef4c82a90d5d4ea094c21",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2211,16 +2211,16 @@
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
-            "version": "4.3.2",
+            "version": "4.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kirschbaum-development/eloquent-power-joins.git",
-                "reference": "33c189bd51a510c1ceba67222395ead08a29863a"
+                "reference": "c609dbbe4ad2051b667e937f1ab554067519d64b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kirschbaum-development/eloquent-power-joins/zipball/33c189bd51a510c1ceba67222395ead08a29863a",
-                "reference": "33c189bd51a510c1ceba67222395ead08a29863a",
+                "url": "https://api.github.com/repos/kirschbaum-development/eloquent-power-joins/zipball/c609dbbe4ad2051b667e937f1ab554067519d64b",
+                "reference": "c609dbbe4ad2051b667e937f1ab554067519d64b",
                 "shasum": ""
             },
             "require": {
@@ -2268,22 +2268,22 @@
             ],
             "support": {
                 "issues": "https://github.com/kirschbaum-development/eloquent-power-joins/issues",
-                "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/4.3.2"
+                "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/4.3.3"
             },
-            "time": "2026-05-28T20:35:55+00:00"
+            "time": "2026-07-23T11:41:37+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v13.21.1",
+            "version": "v13.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "303b5f8dc899f89e8c38c350b639b8fbd193ed16"
+                "reference": "d354afa45334cdac523fbc015f203a78d7e2f5c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/303b5f8dc899f89e8c38c350b639b8fbd193ed16",
-                "reference": "303b5f8dc899f89e8c38c350b639b8fbd193ed16",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d354afa45334cdac523fbc015f203a78d7e2f5c6",
+                "reference": "d354afa45334cdac523fbc015f203a78d7e2f5c6",
                 "shasum": ""
             },
             "require": {
@@ -2497,7 +2497,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-07-21T14:27:35+00:00"
+            "time": "2026-07-24T20:38:48+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -10518,7 +10518,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3"
+        "php": "^8.4"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"

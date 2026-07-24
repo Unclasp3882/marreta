@@ -28,21 +28,18 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'dns_servers' => array_values(array_filter(explode(',', (string) env('DNS_SERVERS', '1.1.1.1,8.8.8.8')))),
-
     'proxy_url' => env('PROXY_URL'),
 
     /*
     |--------------------------------------------------------------------------
     | Browser engine (Lightpanda via CDP)
-    | BROWSER_WS_ENDPOINT takes precedence; legacy SELENIUM_HOST is honoured
-    | as a deprecated fallback (translated into a ws:// endpoint).
     |--------------------------------------------------------------------------
     */
 
     'browser' => [
-        'ws_endpoint' => env('BROWSER_WS_ENDPOINT')
-            ?: (env('SELENIUM_HOST') ? 'ws://'.preg_replace('#^https?://#', '', (string) env('SELENIUM_HOST')) : 'ws://localhost:9222'),
+        // A trailing path is required: the underlying WebSocket client rejects a URI with no path.
+        // Left null when unset — the browser fetch strategy is skipped in that case.
+        'ws_endpoint' => env('BROWSER_WS_ENDPOINT') ? rtrim((string) env('BROWSER_WS_ENDPOINT'), '/').'/' : null,
         'timeout_ms' => (int) env('BROWSER_TIMEOUT_MS', 30000),
     ],
 
@@ -54,17 +51,9 @@ return [
 
     'cache' => [
         'disabled' => (bool) env('DISABLE_CACHE', false),
-        'directory' => env('CACHE_DIR', base_path('cache')),
+        'directory' => storage_path('app/marreta-cache'),
         'compress_level' => 3,
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Maintenance
-    |--------------------------------------------------------------------------
-    */
-
-    'cleanup_days' => (int) env('CLEANUP_DAYS', 0),
 
     /*
     |--------------------------------------------------------------------------

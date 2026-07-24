@@ -7,7 +7,6 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --no-interaction --optimize-autoloader --no-dev \
-    && php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
 

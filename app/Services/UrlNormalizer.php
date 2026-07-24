@@ -41,7 +41,7 @@ final class UrlNormalizer
         $url = preg_replace('#/+#', '/', $url);
         $url = 'https://'.$url;
 
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        if (! $this->isValidUrl($url)) {
             return ['valid' => false, 'url' => '', 'needs_redirect' => false];
         }
 
@@ -66,7 +66,7 @@ final class UrlNormalizer
     {
         $url = trim($url);
 
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        if (! $this->isValidUrl($url)) {
             return '';
         }
 
@@ -85,8 +85,21 @@ final class UrlNormalizer
         $cleaned .= isset($parts['query']) ? '?'.$parts['query'] : '';
         $cleaned .= isset($parts['fragment']) ? '#'.$parts['fragment'] : '';
 
-        $cleaned = preg_replace('/[\x00-\x1F\x7F]/', '', $cleaned);
+        return preg_replace('/[\x00-\x1F\x7F]/', '', $cleaned);
+    }
 
-        return (string) filter_var($cleaned, FILTER_SANITIZE_URL);
+    /**
+     * Validate a URL, tolerating non-ASCII characters that FILTER_VALIDATE_URL rejects
+     * (e.g. accented letters in Wikipedia-style paths) by percent-encoding them first.
+     */
+    private function isValidUrl(string $url): bool
+    {
+        $ascii = preg_replace_callback(
+            '/[^\x21-\x7E]/',
+            fn (array $m): string => rawurlencode($m[0]),
+            $url,
+        );
+
+        return filter_var($ascii, FILTER_VALIDATE_URL) !== false;
     }
 }

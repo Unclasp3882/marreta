@@ -35,6 +35,10 @@ final class ProxyService
      */
     public function analyze(string $url): string
     {
+        if (! preg_match('#^https?://#', $url)) {
+            $url = 'https://'.$url;
+        }
+
         $host = parse_url($url, PHP_URL_HOST);
         if (! $host) {
             throw new MarretaException(MarretaError::InvalidUrl);

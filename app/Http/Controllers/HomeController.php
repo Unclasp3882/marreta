@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Services\MarretaCacheService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 final class HomeController extends Controller
 {
-    public function __invoke(Request $request, MarretaCacheService $cache): View|RedirectResponse
+    public function __invoke(Request $request): View|RedirectResponse
     {
         app()->setLocale(config('marreta.language'));
 
@@ -47,7 +46,6 @@ final class HomeController extends Controller
             'message' => $message,
             'message_type' => $messageType,
             'url' => $url,
-            'cache_count' => $cache->getCacheFileCount(),
             'site_name' => config('marreta.site_name'),
             'site_description' => config('marreta.site_description'),
             'site_url' => config('marreta.site_url'),

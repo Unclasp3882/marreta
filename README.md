@@ -45,8 +45,8 @@ Agora modifique com suas preferencias:
 
 - `APP_NAME`: Nome do seu Marreta
 - `APP_DESCRIPTION`: Conta pra que serve
-- `APP_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no docker-compose (ex: 8080:80), você também deve incluir a porta no SITE_URL (ex: https://seusite:8080)
-- `APP_LANGUAGE`: pt-br (Português Brasil), en (Inglês), es (Espanhol) ou de-de (Alemão), ru-ru (Russo)
+- `APP_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no docker-compose (ex: 8080:80), você também deve incluir a porta no APP_URL (ex: https://seusite:8080)
+- `APP_LOCALE`: pt-br (Português Brasil), en (Inglês), es (Espanhol) ou de-de (Alemão), ru-ru (Russo)
 - `ADMIN_EMAIL`: admin@marreta.local
 - `ADMIN_PASSWORD`: password
 

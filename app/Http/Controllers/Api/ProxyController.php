@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\MarretaError;
 use App\Exceptions\MarretaException;
 use App\Http\Controllers\Controller;
 use App\Services\ProxyService;
 use App\Services\UrlNormalizer;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 final class ProxyController extends Controller
@@ -19,19 +19,17 @@ final class ProxyController extends Controller
         private readonly UrlNormalizer $urlNormalizer,
     ) {}
 
-    public function __invoke(Request $request, string $url): JsonResponse|RedirectResponse
+    public function __invoke(Request $request, string $url): JsonResponse
     {
-        $processed = $this->urlNormalizer->processRouteUrl($url, $request->query->all());
-
-        if (! $processed['valid']) {
-            return redirect('/?message=INVALID_URL');
-        }
-
-        if ($processed['needs_redirect']) {
-            return redirect(config('marreta.site_url').'/api/'.$processed['url']);
-        }
+        $headers = ['Access-Control-Allow-Origin' => '*'];
 
         try {
+            $processed = $this->urlNormalizer->processRouteUrl($url, $request->query->all());
+
+            if (! $processed['valid']) {
+                throw new MarretaException(MarretaError::InvalidUrl);
+            }
+
             $this->proxyService->analyze($processed['url']);
 
             $displayUrl = preg_replace('#^https?://#', '', $processed['url']);
@@ -39,15 +37,9 @@ final class ProxyController extends Controller
             return response()->json([
                 'status' => 200,
                 'url' => config('marreta.site_url').'/p/'.$displayUrl,
-            ], 200, [
-                'Access-Control-Allow-Origin' => '*',
-                'Access-Control-Allow-Methods' => 'GET',
-            ]);
+            ], 200, $headers + ['Access-Control-Allow-Methods' => 'GET']);
         } catch (MarretaException $e) {
-            $headers = [
-                'Access-Control-Allow-Origin' => '*',
-                'X-Error-Type' => $e->errorType(),
-            ];
+            $headers['X-Error-Type'] = $e->errorType();
 
             if ($e->additionalInfo()) {
                 $headers['X-Error-Info'] = $e->additionalInfo();
@@ -56,7 +48,7 @@ final class ProxyController extends Controller
             return response()->json([
                 'status' => $e->error()->httpCode(),
                 'error' => [
-                    'type' => $e->errorType(),
+                    'code' => $e->errorType(),
                     'message' => $e->getMessage(),
                     'details' => $e->additionalInfo() ?: null,
                 ],
