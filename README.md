@@ -43,31 +43,12 @@ Agora modifique com suas preferencias:
 
 `nano docker-compose.yml`
 
-- `SITE_NAME`: Nome do seu Marreta
-- `SITE_DESCRIPTION`: Conta pra que serve
-- `SITE_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no docker-compose (ex: 8080:80), você também deve incluir a porta no SITE_URL (ex: https://seusite:8080)
-- `SELENIUM_HOST`: Servidor:PORTA do host do Selenium (ex: selenium-hub:4444)
-- `LANGUAGE`: pt-br (Português Brasil), en (Inglês), es (Espanhol) ou de-de (Alemão), ru-ru (Russo)
+- `APP_NAME`: Nome do seu Marreta
+- `APP_DESCRIPTION`: Conta pra que serve
+- `APP_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no docker-compose (ex: 8080:80), você também deve incluir a porta no SITE_URL (ex: https://seusite:8080)
+- `APP_LANGUAGE`: pt-br (Português Brasil), en (Inglês), es (Espanhol) ou de-de (Alemão), ru-ru (Russo)
  
 Agora só rodar `docker compose up -d`
-
-### Mais configurações:
-- Selenium: https://github.com/manualdousuario/marreta/wiki/%F0%9F%92%BB-Selenium-Hub-(Chrome-and-Firefox)
-- Cache S3: https://github.com/manualdousuario/marreta/wiki/%F0%9F%97%83%EF%B8%8F-Cache-S3
-- Manutenção: https://github.com/manualdousuario/marreta/wiki/%F0%9F%9B%A0%EF%B8%8F-Maintenance
-
-### 🛡️ DMCA
-
-Para bloquear dominios por pedidos de DMCA, crie o arquivo `app/cache/dmca_domains.json`:
-
-```json
-[
-    {
-        "host": "exemplo.com.br",
-        "message": "Este conteúdo foi bloqueado a pedido"
-    }
-]
-```
 
 ## 🚀 Integrações
 
