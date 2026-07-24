@@ -1,8 +1,8 @@
 FROM shinsenter/laravel:php8.4-nginx
 
-WORKDIR /var/www/html
+RUN phpaddmod sockets
 
-RUN docker-php-ext-install sockets
+WORKDIR /var/www/html
 
 COPY . .
 
