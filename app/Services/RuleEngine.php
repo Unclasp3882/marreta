@@ -14,7 +14,7 @@ final class RuleEngine
         'userAgent', 'headers', 'idElementRemove', 'classElementRemove',
         'scriptTagRemove', 'cookies', 'classAttrRemove', 'customCode',
         'excludeGlobalRules', 'customStyle', 'socialReferrer', 'fetchStrategies',
-        'fromGoogleBot', 'removeElementsByTag', 'removeCustomAttr', 'urlMods',
+        'removeElementsByTag', 'removeCustomAttr', 'urlMods',
         'proxy', 'engine',
     ];
 

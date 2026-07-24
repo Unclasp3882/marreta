@@ -25,7 +25,6 @@
  *   - fetchFromWaybackMachine: Try to fetch from Internet Archive
  *   - fetchFromSelenium: Use Selenium for extraction
  * - socialReferrers: Add random social media headers
- * - fromGoogleBot: Adds simulation of request coming from Google Bot
  * - removeElementsByTag: Remove specific elements via DOM
  * - removeCustomAttr: Remove custom attributes from elements
  * - urlMods: Modify the URL before fetching content.
@@ -47,7 +46,6 @@ return [
         'idElementRemove' => ['didomi-popup', 'engagement-top'],
         'classElementRemove' => ['content-exclusive-bg'],
         'classAttrRemove' => ['didomi-popup-open', 'paywall'],
-        'fromGoogleBot' => true,
         'removeElementsByTag' => ['style'],
         'removeCustomAttr' => ['hidden', 'data-*']
     ],
@@ -685,7 +683,6 @@ return [
             'next-flags' => null,
             'next:ads' => null
         ],
-        'fromGoogleBot' => true,
         'headers' => [
             'Referer' => 'https://t.co/x?amp=1'
         ],

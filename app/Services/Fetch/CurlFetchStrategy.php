@@ -10,12 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 final class CurlFetchStrategy implements FetchStrategy
 {
-    private const GOOGLEBOT_USER_AGENTS = [
-        'Googlebot-News',
-        'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.200 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-        'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/131.0.6778.200 Safari/537.36',
-    ];
-
     public function fetch(string $url, array $rules): string
     {
         $options = [
@@ -23,7 +17,6 @@ final class CurlFetchStrategy implements FetchStrategy
             'timeout' => 10,
             'verify' => false,
             'curl' => [
-                CURLOPT_DNS_SERVERS => implode(',', config('marreta.dns_servers', ['8.8.8.8'])),
                 CURLOPT_ENCODING => '',
             ],
         ];
@@ -39,12 +32,6 @@ final class CurlFetchStrategy implements FetchStrategy
             'Pragma' => 'no-cache',
             'DNT' => '1',
         ];
-
-        if (isset($rules['fromGoogleBot'])) {
-            $headers['User-Agent'] = $this->randomGooglebotUa();
-            $headers['X-Forwarded-For'] = '66.249.'.rand(64, 95).'.'.rand(1, 254);
-            $headers['From'] = 'googlebot(at)googlebot.com';
-        }
 
         if (isset($rules['headers']) && is_array($rules['headers'])) {
             $headers = $rules['headers'];
@@ -68,10 +55,5 @@ final class CurlFetchStrategy implements FetchStrategy
         }
 
         return $response->body();
-    }
-
-    private function randomGooglebotUa(): string
-    {
-        return self::GOOGLEBOT_USER_AGENTS[array_rand(self::GOOGLEBOT_USER_AGENTS)];
     }
 }
