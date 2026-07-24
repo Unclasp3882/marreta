@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 return [
-    'walls_destroyed' => 'Paywall überwunden',
     'url_placeholder' => 'Adresse eingegeben (z.B., https://example.com)',
     'analyze_button' => 'Analysiere',
     'loading' => 'Analysiere...',

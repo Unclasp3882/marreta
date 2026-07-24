@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 return [
-    'walls_destroyed' => 'paredes derrubadas!',
     'url_placeholder' => 'Digite a URL (ex: https://exemplo.com)',
     'analyze_button' => 'Analisar',
     'loading' => 'Analisando...',
