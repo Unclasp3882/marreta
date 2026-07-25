@@ -72,7 +72,7 @@ final class MarretaCacheService
     {
         $this->ensureDirectory();
 
-        $count = count($this->files->glob($this->path('*').'.gz'));
+        $count = count($this->files->glob($this->path('*')) ?: []);
         Stat::updateOrCreate(['key' => 'cache_count'], ['value' => $count]);
 
         return $count;
