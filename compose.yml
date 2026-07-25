@@ -8,7 +8,7 @@ services:
       - marreta_storage:/var/www/html/storage/app
     environment:
       - APP_NAME=${APP_NAME:-Marreta}
-      - APP_KEY=${APP_KEY:-}
+      - APP_KEY=${APP_KEY:-} # https://laravel-encryption-key-generator.vercel.app
       - APP_DEBUG=${APP_DEBUG:-false}
       - APP_URL=${APP_URL:-http://localhost:81}
       - APP_LOCALE=${APP_LOCALE:-pt-br}
