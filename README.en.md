@@ -47,6 +47,7 @@ Now modify with your preferences:
 - `APP_URL`: Where it will run, full address with `https://`. The container serves HTTP on port `8080` and compose.yml publishes it on host port `81`; if you change that (e.g. `8080:8080`), you must also include the port in APP_URL (e.g., https://yoursite:8080)
 - `APP_LOCALE`: pt-br (Brazilian Portuguese), en (English), es (Spanish), de-de (German), ru-ru (Russian)
 - `APP_KEY`: optional. When left empty, a key is generated on first boot and kept on the volume
+- `DISABLE_CACHE`: optional. Page cache is on by default; set `true` to turn it off
 - `ADMIN_EMAIL`: admin@marreta.local
 - `ADMIN_PASSWORD`: password
 
