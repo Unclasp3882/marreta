@@ -44,8 +44,9 @@ Agora modifique com suas preferencias:
 
 - `APP_NAME`: Nome do seu Marreta
 - `APP_DESCRIPTION`: Conta pra que serve
-- `APP_URL`: Onde vai rodar, endereço completo com `https://`. Se você alterar a porta no compose.yml (ex: 8080:80), você também deve incluir a porta no APP_URL (ex: https://seusite:8080)
+- `APP_URL`: Onde vai rodar, endereço completo com `https://`. O container serve HTTP na porta `8080` e o compose.yml publica ela em `81` no host; se você mudar isso (ex: `8080:8080`), inclua a porta também no APP_URL (ex: https://seusite:8080)
 - `APP_LOCALE`: pt-br (Português Brasil), en (Inglês), es (Espanhol) ou de-de (Alemão), ru-ru (Russo)
+- `APP_KEY`: opcional. Se ficar vazio, uma chave é gerada no primeiro boot e guardada no volume
 - `ADMIN_EMAIL`: admin@marreta.local
 - `ADMIN_PASSWORD`: password
 

@@ -3,14 +3,14 @@ services:
     container_name: marreta
     image: ghcr.io/manualdousuario/marreta:latest
     ports:
-      - "81:80"
+      - "81:8080"
     volumes:
-      - ./storage/app:/var/www/html/storage/app
+      - marreta_storage:/var/www/html/storage/app
     environment:
       - APP_NAME=${APP_NAME:-Marreta}
-      - APP_KEY=${APP_KEY}
+      - APP_KEY=${APP_KEY:-}
       - APP_DEBUG=${APP_DEBUG:-false}
-      - APP_URL=${APP_URL:-http://localhost}
+      - APP_URL=${APP_URL:-http://localhost:81}
       - APP_LOCALE=${APP_LOCALE:-pt-br}
       - APP_DESCRIPTION=${APP_DESCRIPTION:-Chapéu de paywall é marreta!}
       - BROWSER_WS_ENDPOINT=${BROWSER_WS_ENDPOINT:-ws://marreta_browser:9222}
@@ -24,6 +24,7 @@ services:
   marreta_browser:
     container_name: marreta_browser
     image: lightpanda/browser:nightly
-    ports:
-      - "9222:9222"
     restart: unless-stopped
+
+volumes:
+  marreta_storage:

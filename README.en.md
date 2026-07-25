@@ -44,8 +44,9 @@ Now modify with your preferences:
 
 - `APP_NAME`: Name of your Marreta
 - `APP_DESCRIPTION`: Explain what it's for
-- `APP_URL`: Where it will run, full address with `https://`. If you change the port in compose.yml (e.g., 8080:80), you must also include the port in APP_URL (e.g., https://yoursite:8080)
+- `APP_URL`: Where it will run, full address with `https://`. The container serves HTTP on port `8080` and compose.yml publishes it on host port `81`; if you change that (e.g. `8080:8080`), you must also include the port in APP_URL (e.g., https://yoursite:8080)
 - `APP_LOCALE`: pt-br (Brazilian Portuguese), en (English), es (Spanish), de-de (German), ru-ru (Russian)
+- `APP_KEY`: optional. When left empty, a key is generated on first boot and kept on the volume
 - `ADMIN_EMAIL`: admin@marreta.local
 - `ADMIN_PASSWORD`: password
 

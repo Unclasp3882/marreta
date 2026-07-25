@@ -1,11 +1,39 @@
+# Version control and CI
 .git
+.gitattributes
+.gitignore
 .github
+
+# Local environment
 .env
 .env.backup
 .env.production
+
+# Installed inside the image
+vendor
+node_modules
+
+# Writable state — recreated in the Dockerfile, kept on a volume at runtime
+bootstrap/cache/*.php
 storage/app/*
-storage/logs/*
 storage/framework/cache/data/*
 storage/framework/sessions/*
 storage/framework/views/*
-node_modules
+storage/logs/*
+public/build
+public/hot
+public/storage
+
+# Tests and tooling
+tests
+phpunit.xml
+.phpunit.result.cache
+
+# Build definition and docs
+Dockerfile
+.dockerignore
+compose.yml
+README.md
+README.en.md
+screen.png
+screen.en.png

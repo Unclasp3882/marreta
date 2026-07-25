@@ -25,7 +25,7 @@ jobs:
       - name: 🐘 Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           tools: none
 
       - name: 🔍 Validate PHP syntax
@@ -114,6 +114,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          target: production
           platforms: ${{ matrix.platform }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}

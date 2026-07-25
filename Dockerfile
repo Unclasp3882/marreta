@@ -1,13 +1,43 @@
-FROM shinsenter/laravel:php8.4-nginx
+# syntax=docker/dockerfile:1
 
-RUN phpaddmod sockets
+FROM serversideup/php:8.4-fpm-nginx AS base
 
-WORKDIR /var/www/html
+USER root
 
-COPY . .
+RUN install-php-extensions intl sockets
 
-RUN composer install --no-interaction --optimize-autoloader --no-dev \
-    && php artisan route:cache \
-    && php artisan view:cache
+COPY --chmod=755 docker/entrypoint.d/ /etc/entrypoint.d/
 
-EXPOSE 80
+USER www-data
+
+FROM base AS production
+
+ENV HEALTHCHECK_PATH="/up" \
+    LOG_CHANNEL="stderr" \
+    PHP_OPCACHE_ENABLE="1" \
+    AUTORUN_ENABLED="true" \
+    AUTORUN_LARAVEL_MIGRATION_SEED="true" \
+    AUTORUN_LARAVEL_STORAGE_LINK="false"
+
+# Install dependencies first so the Composer layer survives application changes.
+COPY --chown=www-data:www-data composer.json composer.lock ./
+
+RUN composer install \
+        --no-dev \
+        --no-interaction \
+        --no-progress \
+        --no-scripts \
+        --no-autoloader \
+        --prefer-dist
+
+COPY --chown=www-data:www-data . .
+
+RUN mkdir -p \
+        bootstrap/cache \
+        storage/app/marreta-cache \
+        storage/framework/cache/data \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs && \
+    \
+    composer dump-autoload --no-dev --optimize --no-interaction
