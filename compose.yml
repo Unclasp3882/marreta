@@ -17,7 +17,7 @@ services:
       - PROXY_URL=${PROXY_URL:-}
       - DISABLE_CACHE=${DISABLE_CACHE:-false}
       - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@marreta.local}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-password}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?defina ADMIN_PASSWORD}
     depends_on:
       - marreta_browser
     restart: unless-stopped

@@ -63,7 +63,7 @@ return [
 
     'admin' => [
         'email' => env('ADMIN_EMAIL', 'admin@marreta.local'),
-        'password' => env('ADMIN_PASSWORD', 'password'),
+        'password' => env('ADMIN_PASSWORD'),
     ],
 
 ];
