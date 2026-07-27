@@ -53,6 +53,41 @@ Agora modifique com suas preferencias:
 
 Agora só rodar `docker compose up -d`
 
+## ⚠️ Breaking changes: migrando da 2.x pra 3.x
+
+A partir da 3.0.0 o Marreta virou uma aplicação Laravel. É uma reescrita completa do zero, então não existe caminho de upgrade "no lugar", o recomendado é subir os containers novos e reconfigurar o essencial.
+
+### O que mudou
+
+### Variáveis de ambiente
+
+| Antes (2.x)                      | Agora (3.x)                       | Observação |
+|----------------------------------|-----------------------------------|------------|
+| `SITE_NAME`                      | `APP_NAME`                        | |
+| `SITE_DESCRIPTION`               | `APP_DESCRIPTION`                 | |
+| `SITE_URL`                       | `APP_URL`                         | |
+| `LANGUAGE`                       | `APP_LOCALE`                      | |
+| `DEBUG`                          | `APP_DEBUG`                       | |
+| —                                | `APP_KEY`                         | Novo e obrigatório. Se deixar vazio, é gerada uma chave automaticamente no primeiro boot |
+| `SELENIUM_HOST`                  | `BROWSER_WS_ENDPOINT`             | Agora aponta pro Lightpanda (`ws://marreta_browser:9222`), não mais pro Selenium |
+| `DNS_SERVERS`                    | *(removido)*                      | |
+| `CLEANUP_DAYS`                   | *(removido)*                      | |
+| `LOG_LEVEL` / `LOG_DAYS_TO_KEEP` | *(removido)*                      | |
+| `S3_CACHE_ENABLED` / `S3_*`      | *(removido)*                      | |
+| —                                | `ADMIN_EMAIL` / `ADMIN_PASSWORD`  | Novo. Credenciais de login do painel `/admin` |
+
+### Docker
+
+- Porta interna do container mudou de `80` pra `8080` (o `compose.yml` já publica em `81:8080` no host, ajuste se você tinha `80:80` mapeado).
+- Os bind mounts antigos (`./app/cache` e `./app/logs`) deixaram de existir. Agora tudo (banco SQLite + cache) mora num volume nomeado, `marreta_storage`, montado em `/var/www/html/storage/app`.
+
+### Passo a passo pra migrar
+
+1. Antes de derrubar os containers antigos, anote as customizações que você tenha feito em `app/data/domain_rules.php`, `app/data/blocked_domains.php` e `app/data/global_rules.php`, e também os domínios cadastrados em `app/cache/dmca_domains.json`. Nada disso é migrado automaticamente.
+2. Baixe o novo `compose.yml`, `APP_KEY` (gere uma em [laravel-encryption-key-generator.vercel.app](https://laravel-encryption-key-generator.vercel.app)), `ADMIN_EMAIL` e `ADMIN_PASSWORD`.
+3. Suba os containers com `docker compose up -d`. No primeiro boot, as migrations rodam e o banco é populado com o conjunto padrão de regras/domínios bloqueados que vêm com o Marreta.
+4. Acesse `SEU_DOMINIO/admin`, entre com `ADMIN_EMAIL`/`ADMIN_PASSWORD` e recadastre manualmente: suas regras de domínio customizadas, domínios bloqueados extras e domínios com DMCA que você tinha anotado no passo 1.
+
 ## 🚀 Integrações
 
 - 🤖 **Telegram**: [Bot oficial](https://t.me/leissoai_bot)
