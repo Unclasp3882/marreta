@@ -13,7 +13,7 @@ final class DmcaDomain extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget('marreta.dmca_domains'));
-        static::deleted(fn () => Cache::forget('marreta.dmca_domains'));
+        self::saved(fn () => Cache::forget('marreta.dmca_domains'));
+        self::deleted(fn () => Cache::forget('marreta.dmca_domains'));
     }
 }

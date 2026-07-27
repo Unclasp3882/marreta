@@ -128,6 +128,7 @@ final class RuleEngine
 
             if (! isset($merged[$ruleType])) {
                 $merged[$ruleType] = $domainTypeRules;
+
                 continue;
             }
 

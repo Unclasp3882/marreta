@@ -99,7 +99,7 @@ class GlobalRules extends Page
     {
         $state = $this->form->getState();
 
-        $ruleSet = GlobalRuleSet::current() ?? new GlobalRuleSet();
+        $ruleSet = GlobalRuleSet::current() ?? new GlobalRuleSet;
         $ruleSet->config = $state['config'];
         $ruleSet->save();
 

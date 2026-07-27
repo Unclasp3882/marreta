@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\MarretaError;
+use App\Exceptions\MarretaException;
+use Dom\Element;
 use Dom\HTMLDocument;
 use Dom\XPath;
-use Illuminate\Support\Facades\Log;
 
 final class ContentProcessor
 {
@@ -20,7 +22,7 @@ final class ContentProcessor
     public function processContent(string $content, string $host, string $url): string
     {
         if (strlen($content) < 5120) {
-            throw new \App\Exceptions\MarretaException(\App\Enums\MarretaError::ContentError);
+            throw new MarretaException(MarretaError::ContentError);
         }
 
         $this->activatedRules = [];
@@ -286,7 +288,7 @@ final class ContentProcessor
     }
 
     /** @param  list<string>  $classesToRemove */
-    private function removeClassNames(\Dom\Element $element, array $classesToRemove): void
+    private function removeClassNames(Element $element, array $classesToRemove): void
     {
         if (! $element->hasAttribute('class')) {
             return;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Fetch;
 
+use App\Exceptions\MarretaException;
+
 interface FetchStrategy
 {
     /**
@@ -11,7 +13,7 @@ interface FetchStrategy
      *
      * @param  array<string, mixed>  $rules  Merged domain rules.
      *
-     * @throws \App\Exceptions\MarretaException
+     * @throws MarretaException
      */
     public function fetch(string $url, array $rules): string;
 }

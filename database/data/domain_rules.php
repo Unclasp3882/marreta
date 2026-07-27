@@ -2,7 +2,7 @@
 
 /**
  * Specific rule configurations for individual domains
- * 
+ *
  * Domain rule structure / Estrutura das regras por domínio:
  * - userAgent: Define custom User-Agent for the domain
  * - headers: Custom HTTP headers for requests
@@ -40,14 +40,14 @@
  */
 return [
     'nsctotal.com.br' => [
-        'userAgent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+        'userAgent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
     ],
     'elcorreo.com' => [
         'idElementRemove' => ['didomi-popup', 'engagement-top'],
         'classElementRemove' => ['content-exclusive-bg'],
         'classAttrRemove' => ['didomi-popup-open', 'paywall'],
         'removeElementsByTag' => ['style'],
-        'removeCustomAttr' => ['hidden', 'data-*']
+        'removeCustomAttr' => ['hidden', 'data-*'],
     ],
     'wired.com' => [
         'scriptTagRemove' => ['.js'],
@@ -62,16 +62,16 @@ return [
         'cookies' => [
             'piano_d' => null,
             'piano_if' => null,
-            'piano_user_id' => null
+            'piano_user_id' => null,
         ],
-        'classAttrRemove' => ['wall', 'protected-content', 'cropped-block']
+        'classAttrRemove' => ['wall', 'protected-content', 'cropped-block'],
     ],
     'gauchazh.clicrbs.com.br' => [
         'idElementRemove' => ['paywallTemplate'],
         'classAttrRemove' => ['m-paid-content', 'paid-content-apply'],
-        'scriptTagRemove' => ['vendors-9','vendors-10','vendors-11'],
+        'scriptTagRemove' => ['vendors-9', 'vendors-10', 'vendors-11'],
         'excludeGlobalRules' => [
-            'classElementRemove' => ['paid-content']
+            'classElementRemove' => ['paid-content'],
         ],
         'proxy' => true,
     ],
@@ -88,11 +88,11 @@ return [
     'gamestar.de' => [
         'classElementRemove' => ['plus-teaser'],
         'classAttrRemove' => ['plus-'],
-        'idElementRemove' => ['commentReload']
+        'idElementRemove' => ['commentReload'],
     ],
     'heise.de' => [
         'classAttrRemove' => ['curtain__purchase-container'],
-        'removeElementsByTag' => ['a-gift']
+        'removeElementsByTag' => ['a-gift'],
     ],
     'fortune.com' => [
         'classElementRemove' => ['latest-popular-module', 'own', 'drawer-menu'],
@@ -131,7 +131,7 @@ return [
             if (dropcapDiv) {
                 dropcapDiv.style.height = \'auto\';
             }
-        });'
+        });',
     ],
     'latercera.com' => [
         'classElementRemove' => ['pw-frontier'],
@@ -144,7 +144,7 @@ return [
         }
         .main-header .top-menu, .main-header .alert-news, .main-header .alert-news.sticky {
             position:inherit !important;
-        }'
+        }',
     ],
     'folha.uol.com.br' => [
         'idElementRemove' => ['paywall-flutuante', 'paywall', 'paywall-signup'],
@@ -153,23 +153,23 @@ return [
         'cookies' => [
             'paywall_visit' => null,
             'folha_id' => null,
-            'paywall_access' => 'true'
-        ]
+            'paywall_access' => 'true',
+        ],
     ],
     'ftm.nl' => [
         'fetchStrategies' => 'fetchFromSelenium',
         'removeCustomAttr' => ['dialog', 'iframe'],
         'classElementRemove' => ['modal'],
         'scriptTagRemove' => ['footer.min', 'diffuser.js', 'insight.ftm.nl'],
-        'classAttrRemove' => ['hasBlockingOverlay', 'localstorage']
+        'classAttrRemove' => ['hasBlockingOverlay', 'localstorage'],
     ],
     'denikn.cz' => [
-        'idElementRemove' => ['e_lock__hard']
+        'idElementRemove' => ['e_lock__hard'],
     ],
     'dtest.cz' => [
         'fetchStrategies' => 'fetchFromSelenium',
         'classAttrRemove' => ['is-hidden-compare'],
-        'classElementRemove' => ['cc-window']
+        'classElementRemove' => ['cc-window'],
     ],
     'uol.com.br' => [
         'scriptTagRemove' => ['me.jsuol.com.br', 'c.jsuol.com.br'],
@@ -186,21 +186,21 @@ return [
     ],
     'onetz.de' => [
         'idElementRemove' => ['checkout-container'],
-        'classElementRemove' => ['tp-backdrop','dm-nobg'],
+        'classElementRemove' => ['tp-backdrop', 'dm-nobg'],
         'classAttrRemove' => ['field-dnt-body-pp'],
         'scriptTagRemove' => ['.js'],
     ],
     'opovo.com.br' => [
-        'classElementRemove' => ['screen-loading', 'overlay-advise']
+        'classElementRemove' => ['screen-loading', 'overlay-advise'],
     ],
     'crusoe.com.br' => [
         'cookies' => [
-            'crs_subscriber' => '1'
-        ]
+            'crs_subscriber' => '1',
+        ],
     ],
     'theverge.com' => [
         'scriptTagRemove' => 'zephr',
-        'classElementRemove' => 'zephr'
+        'classElementRemove' => 'zephr',
     ],
     'nytimes.com' => [
         'idElementRemove' => ['gateway-content', 'site-index', 'complianceOverlay'],
@@ -291,29 +291,29 @@ return [
                 'navdmp.com',
                 'getblue.io',
                 'smartocto.com',
-                'cdn.pn.vg'
-            ]
-        ]
+                'cdn.pn.vg',
+            ],
+        ],
     ],
     'correio24horas.com.br' => [
         'idElementRemove' => ['paywall'],
         'classElementRemove' => ['paywall'],
         'classAttrRemove' => ['hide', 'is-active'],
         'cookies' => [
-            'premium_access' => '1'
-        ]
+            'premium_access' => '1',
+        ],
     ],
     'abril.com.br' => [
         'cookies' => [
-            'paywall_access' => 'true'
+            'paywall_access' => 'true',
         ],
         'classElementRemove' => ['piano-offer-overlay'],
         'classAttrRemove' => ['disabledByPaywall'],
-        'idElementRemove' => ['piano_offer']
+        'idElementRemove' => ['piano_offer'],
     ],
     'foreignpolicy.com' => [
         'idElementRemove' => ['paywall_bg'],
-        'classAttrRemove' => ['overlay-no-scroll', 'overlay-no-scroll']
+        'classAttrRemove' => ['overlay-no-scroll', 'overlay-no-scroll'],
     ],
     'dgabc.com.br' => [
         'customCode' => '
@@ -323,7 +323,7 @@ return [
                 $(".linhaSuperBanner").show();
                 $(".footer").show();
                 $(".NoticiaExclusivaLogado").show();
-            '
+            ',
     ],
     'forbes.com' => [
         'classElementRemove' => ['zephr-backdrop', 'zephr-generic-modal'],
@@ -341,7 +341,7 @@ return [
         'fetchStrategies' => 'fetchFromSelenium',
     ],
     'seudinheiro.com' => [
-        'idElementRemove' => ['premium-paywall']
+        'idElementRemove' => ['premium-paywall'],
     ],
     'technologyreview.com' => [
         'cookies' => [
@@ -350,8 +350,8 @@ return [
             '_pcus' => null,
             '__tbc' => null,
             '__pvi' => null,
-            '_pctx' => null
-        ]
+            '_pctx' => null,
+        ],
     ],
     'thestar.com' => [
         'classElementRemove' => ['subscriber-offers', 'subscriber-only', 'subscription-required', 'redacted-overlay', 'subscriber-hide', 'tnt-ads-container'],
@@ -378,7 +378,7 @@ return [
                 const recommendations = document.querySelectorAll(\'div[id^="tncms-region-article"]\');
                 recommendations.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'niagarafallsreview.ca' => [
         'classElementRemove' => ['subscriber-offers', 'subscriber-only', 'subscription-required', 'redacted-overlay', 'subscriber-hide', 'tnt-ads-container'],
@@ -405,7 +405,7 @@ return [
                 const recommendations = document.querySelectorAll(\'div[id^="tncms-region-article"]\');
                 recommendations.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'thepeterboroughexaminer.com' => [
         'classElementRemove' => ['subscriber-offers', 'subscriber-only', 'subscription-required', 'redacted-overlay', 'subscriber-hide', 'tnt-ads-container'],
@@ -432,7 +432,7 @@ return [
                 const recommendations = document.querySelectorAll(\'div[id^="tncms-region-article"]\');
                 recommendations.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'therecord.com' => [
         'classElementRemove' => ['subscriber-offers', 'subscriber-only', 'subscription-required', 'redacted-overlay', 'subscriber-hide', 'tnt-ads-container'],
@@ -459,7 +459,7 @@ return [
                 const recommendations = document.querySelectorAll(\'div[id^="tncms-region-article"]\');
                 recommendations.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'thespec.com' => [
         'classElementRemove' => ['subscriber-offers', 'subscriber-only', 'subscription-required', 'redacted-overlay', 'subscriber-hide', 'tnt-ads-container'],
@@ -486,7 +486,7 @@ return [
                 const recommendations = document.querySelectorAll(\'div[id^="tncms-region-article"]\');
                 recommendations.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'wellandtribune.ca' => [
         'classElementRemove' => ['subscriber-offers', 'subscriber-only', 'subscription-required', 'redacted-overlay', 'subscriber-hide', 'tnt-ads-container'],
@@ -513,13 +513,13 @@ return [
                 const recommendations = document.querySelectorAll(\'div[id^="tncms-region-article"]\');
                 recommendations.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'time.com' => [
         'headers' => [
             'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
             'Cookie' => 'nyt-a=; nyt-gdpr=0; nyt-geo=DE; nyt-privacy=1',
-            'Referer' => 'https://www.google.com/'
+            'Referer' => 'https://www.google.com/',
         ],
         'customCode' => '
             window.localStorage.clear();
@@ -527,7 +527,7 @@ return [
                 const banners = document.querySelectorAll(\'div[data-testid="inline-message"], div[id^="ad-"], div[id^="leaderboard-"], div.expanded-dock, div.pz-ad-box, div[id="top-wrapper"], div[id="bottom-wrapper"]\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'architecturaldigest.com' => [
         'customCode' => '
@@ -535,7 +535,7 @@ return [
                 const banners = document.querySelectorAll(\'.paywall-bar, div[class^="MessageBannerWrapper-"\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'bonappetit.com' => [
         'customCode' => '
@@ -543,7 +543,7 @@ return [
                 const banners = document.querySelectorAll(\'.paywall-bar, div[class^="MessageBannerWrapper-"\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'cntraveler.com' => [
         'customCode' => '
@@ -551,7 +551,7 @@ return [
                 const banners = document.querySelectorAll(\'.paywall-bar, div[class^="MessageBannerWrapper-"\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'epicurious.com' => [
         'customCode' => '
@@ -559,7 +559,7 @@ return [
                 const banners = document.querySelectorAll(\'.paywall-bar, div[class^="MessageBannerWrapper-"\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'gq.com' => [
         'customCode' => '
@@ -567,7 +567,7 @@ return [
                 const banners = document.querySelectorAll(\'.paywall-bar, div[class^="MessageBannerWrapper-"\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'vanityfair.com' => [
         'customCode' => '
@@ -575,7 +575,7 @@ return [
                 const banners = document.querySelectorAll(\'.paywall-bar, div[class^="MessageBannerWrapper-"\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'vogue.com' => [
         'customCode' => '
@@ -583,7 +583,7 @@ return [
                 const banners = document.querySelectorAll(\'.paywall-bar, div[class^="MessageBannerWrapper-"\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'americanbanker.com' => [
         'customCode' => '
@@ -595,7 +595,7 @@ return [
                     for (const elem of inlineGated) { elem.classList.remove(\'inline-gated\'); }
                 }
             });
-        '
+        ',
     ],
     'washingtonpost.com' => [
         'classElementRemove' => ['paywall-overlay'],
@@ -610,7 +610,7 @@ return [
                 headimage.forEach(image => { image.style.filter = \'\'; });
             });
         ',
-        'idElementRemove' => ['wall-bottom-drawer-container']
+        'idElementRemove' => ['wall-bottom-drawer-container'],
     ],
     'usatoday.com' => [
         'customCode' => '
@@ -618,35 +618,35 @@ return [
                 const banners = document.querySelectorAll(\'div.roadblock-container, .gnt_nb, [aria-label="advertisement"], div[id="main-frame-error"]\');
                 banners.forEach(el => { el.remove(); });
             });
-        '
+        ',
     ],
     'stcatharinesstandard.ca' => [
         'proxy' => true,
         'idElementRemove' => 'access-offers-modal',
         'classElementRemove' => 'modal-backdrop',
-        'classAttrRemove' => ' modal-open'
+        'classAttrRemove' => ' modal-open',
     ],
     'medium.com' => [
         'headers' => [
             'Referer' => 'https://t.co/x?amp=1',
             'X-Forwarded-For' => 'none',
             'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-            'Content-Security-Policy' => 'script-src \'self\';'
-        ]
+            'Content-Security-Policy' => 'script-src \'self\';',
+        ],
     ],
     'tagesspiegel.de' => [
         'headers' => [
             'Content-Security-Policy' => 'script-src \'self\';',
-            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
+            'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
         ],
         'urlMods' => [
             'query' => [
                 [
                     'key' => 'amp',
-                    'value' => '1'
-                ]
-            ]
-        ]
+                    'value' => '1',
+                ],
+            ],
+        ],
     ],
     'nzz.ch' => [
         'customCode' => '
@@ -656,14 +656,14 @@ return [
                     paywall.remove();
                 }
             });
-        '
+        ',
     ],
     'demorgen.be' => [
         'headers' => [
             'Cookie' => 'isBot=true; authId=1',
             'User-Agent' => 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; Googlebot-News; +http://www.google.com/bot.html) Chrome/121.0.6140.0 Safari/537.36',
             'X-Forwarded-For' => 'none',
-            'Referer' => 'https://news.google.com'
+            'Referer' => 'https://news.google.com',
         ],
         'customCode' => '
             document.addEventListener("DOMContentLoaded", () => {
@@ -676,15 +676,15 @@ return [
                     advert.remove();
                 }
             });
-        '
+        ',
     ],
     'ft.com' => [
         'cookies' => [
             'next-flags' => null,
-            'next:ads' => null
+            'next:ads' => null,
         ],
         'headers' => [
-            'Referer' => 'https://t.co/x?amp=1'
+            'Referer' => 'https://t.co/x?amp=1',
         ],
         'customCode' => '
             document.addEventListener("DOMContentLoaded", () => {
@@ -701,6 +701,6 @@ return [
                     cookie.forEach(el => { el.remove(); });
                 }, 1000);
             })
-        '
-    ]
+        ',
+    ],
 ];

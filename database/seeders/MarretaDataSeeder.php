@@ -107,7 +107,7 @@ final class MarretaDataSeeder extends Seeder
             $unique[$domain] = true;
 
             BlockedDomain::create([
-                'domain' => (string) $domain
+                'domain' => (string) $domain,
             ]);
         }
     }

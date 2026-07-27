@@ -16,7 +16,7 @@ final class Stat extends Model
 
     public static function incrementCounter(string $key, int $by = 1): int
     {
-        $stat = static::firstOrCreate(['key' => $key], ['value' => 0]);
+        $stat = self::firstOrCreate(['key' => $key], ['value' => 0]);
         $stat->increment('value', $by);
 
         return $stat->value;
@@ -24,6 +24,6 @@ final class Stat extends Model
 
     public static function getCounter(string $key, int $default = 0): int
     {
-        return (int) (static::where('key', $key)->value('value') ?? $default);
+        return (int) (self::where('key', $key)->value('value') ?? $default);
     }
 }

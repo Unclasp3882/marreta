@@ -25,7 +25,7 @@ final class GlobalRuleSet extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget('marreta.global_rules'));
-        static::deleted(fn () => Cache::forget('marreta.global_rules'));
+        self::saved(fn () => Cache::forget('marreta.global_rules'));
+        self::deleted(fn () => Cache::forget('marreta.global_rules'));
     }
 }

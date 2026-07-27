@@ -2,12 +2,12 @@
 
 /**
  * Global rule configurations applied to all domains
- * 
+ *
  * Note: These rules can be overridden or disabled for specific domains
  * using the 'excludeGlobalRules' configuration in domain_rules.php
  */
 return [
-    'proxy' => false,    
+    'proxy' => false,
     // Classes to be removed from all pages:
     'classElementRemove' => [
         'subscription',
@@ -28,7 +28,7 @@ return [
         'leaky_paywall_message_wrap',
         'subscribe-form',
         'signup-overlay',
-        'onesignal-slidedown-container'
+        'onesignal-slidedown-container',
     ],
     // Scripts to be removed from all pages:
     'scriptTagRemove' => [
@@ -71,6 +71,6 @@ return [
         'cdn.pn.vg',
         'static.vocstatic.com',
         'recaptcha',
-		'intercom'
-    ]
+        'intercom',
+    ],
 ];

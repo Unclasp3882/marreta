@@ -13,7 +13,7 @@ final class BlockedDomain extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget('marreta.blocked_domains'));
-        static::deleted(fn () => Cache::forget('marreta.blocked_domains'));
+        self::saved(fn () => Cache::forget('marreta.blocked_domains'));
+        self::deleted(fn () => Cache::forget('marreta.blocked_domains'));
     }
 }

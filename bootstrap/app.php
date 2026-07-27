@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\BlockAiBots;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,8 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: (string) env('TRUSTED_PROXIES', '172.16.0.0/12,10.0.0.0/8,192.168.0.0/16,127.0.0.1'));
 
         $middleware->web(append: [
-            \App\Http\Middleware\SecurityHeaders::class,
-            \App\Http\Middleware\BlockAiBots::class,
+            SecurityHeaders::class,
+            BlockAiBots::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

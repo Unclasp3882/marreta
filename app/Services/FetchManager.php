@@ -56,6 +56,7 @@ final class FetchManager
                 }
             } catch (MarretaException $e) {
                 $lastError = $e;
+
                 continue;
             }
         }

@@ -76,9 +76,9 @@ final class AdminResourcesTest extends TestCase
         $this->assertSame([['rule_type' => 'scriptTagRemove', 'values' => ['ga.js', 'gtm.js']]], $hydratedExcludeRows);
 
         $component->fillForm([
-                'config.idElementRemove' => ['paywall', 'subscribe-wall'],
-                'config.customStyle' => 'body { display: none; }',
-            ])
+            'config.idElementRemove' => ['paywall', 'subscribe-wall'],
+            'config.customStyle' => 'body { display: none; }',
+        ])
             ->call('save')
             ->assertHasNoFormErrors();
 

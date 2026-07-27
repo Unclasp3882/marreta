@@ -2,18 +2,18 @@
 
 /**
  * List of blocked domains
- * 
+ *
  * Defines domains that cannot be accessed by the system
  * due to usage policies or technical restrictions
  */
-
 $host = parse_url(defined('SITE_URL') ? SITE_URL : '', PHP_URL_HOST);
+
 return [
     $host,
     'localhost',
     '127.0.0.1',
     // News sites
-    //-- Content behind login access/hard paywall
+    // -- Content behind login access/hard paywall
     'wsj.com',
     'piaui.folha.uol.com.br',
     'economist.com',
@@ -32,16 +32,16 @@ return [
     'mittelbayerische.de',
     'josimarfootball.com',
     'nordsee-zeitung.de',
-	'zorgvisie.nl',
+    'zorgvisie.nl',
     // List of common blocked sites to avoid unnecessary requests
-    //-- Technical access blocking
+    // -- Technical access blocking
     'bloomberg.com',
     'sportskeeda.com',
     'kansascity.com',
     'fastcompany.com',
     'expressnews.com',
     'nydailynews.com',
-    //-- Tracking services
+    // -- Tracking services
     'metaffiliation.com',
     'google-analytics.com',
     'googletagmanager.com',
@@ -62,7 +62,7 @@ return [
     'fullstory.com',
     'heap.io',
     'clearbrain.com',
-    //-- Social networks
+    // -- Social networks
     'facebook.com',
     'instagram.com',
     'twitter.com',
@@ -76,7 +76,7 @@ return [
     'redd.it',
     'bsky.app',
     'threads.net',
-    //-- Streaming services
+    // -- Streaming services
     'netflix.com',
     'hulu.com',
     'disneyplus.com',
@@ -84,32 +84,32 @@ return [
     'spotify.com',
     'youtube.com',
     'twitch.tv',
-    //-- E-commerce sites
+    // -- E-commerce sites
     'amazon.com',
     'ebay.com',
     'aliexpress.com',
     'mercadolivre.com.br',
     'shopify.com',
-    //-- File sharing
+    // -- File sharing
     'mega.nz',
     'mediafire.com',
     'wetransfer.com',
     'dropbox.com',
     'torrent9.pe',
     'thepiratebay.org',
-    //-- Adult sites
+    // -- Adult sites
     'pornhub.com',
     'xvideos.com',
     'xnxx.com',
     'onlyfans.com',
     'privacy.com.br',
     'fatalmodel.com',
-    //-- Betting and gaming
+    // -- Betting and gaming
     'bet365.com',
     'betfair.com',
     'pokerstars.com',
     'casino.com',
-    //-- Other popular sites
+    // -- Other popular sites
     'github.com',
     'stackoverflow.com',
     'wikipedia.org',
@@ -141,5 +141,5 @@ return [
     'baidu.com',
     'gofile.io',
     'timestore.vip',
-    'hidewall.io'
+    'hidewall.io',
 ];
