@@ -15,153 +15,143 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Livewire;
-use Tests\TestCase;
 
-final class AdminResourcesTest extends TestCase
-{
-    use RefreshDatabase;
+uses(RefreshDatabase::class);
 
-    public function test_domain_rules_pages_are_accessible(): void
-    {
-        $user = User::factory()->create();
-        $rule = DomainRule::create([
-            'domain' => 'example.com',
-            'config' => [
-                'fetchStrategies' => 'fetchFromSelenium',
-                'proxy' => true,
-                'idElementRemove' => ['paywall'],
-                'urlMods' => ['query' => [['key' => 'amp', 'value' => '1']]],
-                'excludeGlobalRules' => ['scriptTagRemove' => ['ga.js']],
-            ],
-            'is_active' => true,
+it('serves the domain rules pages', function () {
+    $user = User::factory()->create();
+    $rule = DomainRule::create([
+        'domain' => 'example.com',
+        'config' => [
+            'fetchStrategies' => 'fetchFromSelenium',
+            'proxy' => true,
+            'idElementRemove' => ['paywall'],
+            'urlMods' => ['query' => [['key' => 'amp', 'value' => '1']]],
+            'excludeGlobalRules' => ['scriptTagRemove' => ['ga.js']],
+        ],
+        'is_active' => true,
+    ]);
+
+    $this->actingAs($user)
+        ->get('/admin/domain-rules')
+        ->assertOk();
+
+    $this->actingAs($user)
+        ->get('/admin/domain-rules/create')
+        ->assertOk();
+
+    $this->actingAs($user)
+        ->get("/admin/domain-rules/{$rule->id}/edit")
+        ->assertOk();
+});
+
+it('round trips the domain rule config through the form', function () {
+    $this->actingAs(User::factory()->create());
+
+    $rule = DomainRule::create([
+        'domain' => 'roundtrip.example',
+        'config' => [
+            'fetchStrategies' => 'fetchFromSelenium',
+            'proxy' => true,
+            'idElementRemove' => ['paywall'],
+            'urlMods' => ['query' => [['key' => 'amp', 'value' => '1']]],
+            'excludeGlobalRules' => ['scriptTagRemove' => ['ga.js', 'gtm.js']],
+        ],
+        'is_active' => true,
+    ]);
+
+    $component = Livewire::test(EditDomainRule::class, ['record' => $rule->id])
+        ->assertFormSet([
+            'config.fetchStrategies' => 'fetchFromSelenium',
+            'config.proxy' => true,
+            'config.idElementRemove' => ['paywall'],
         ]);
 
-        $this->actingAs($user)
-            ->get('/admin/domain-rules')
-            ->assertOk();
+    $hydratedExcludeRows = array_values($component->instance()->form->getState()['config']['excludeGlobalRules'] ?? []);
+    expect($hydratedExcludeRows)->toBe([['rule_type' => 'scriptTagRemove', 'values' => ['ga.js', 'gtm.js']]]);
 
-        $this->actingAs($user)
-            ->get('/admin/domain-rules/create')
-            ->assertOk();
+    $component->fillForm([
+        'config.idElementRemove' => ['paywall', 'subscribe-wall'],
+        'config.customStyle' => 'body { display: none; }',
+    ])
+        ->call('save')
+        ->assertHasNoFormErrors();
 
-        $this->actingAs($user)
-            ->get("/admin/domain-rules/{$rule->id}/edit")
-            ->assertOk();
-    }
+    $rule->refresh();
 
-    public function test_domain_rule_config_round_trips_through_the_form(): void
-    {
-        $this->actingAs(User::factory()->create());
+    expect($rule->config['idElementRemove'])->toBe(['paywall', 'subscribe-wall'])
+        ->and($rule->config['customStyle'])->toBe('body { display: none; }')
+        ->and($rule->config['excludeGlobalRules']['scriptTagRemove'])->toBe(['ga.js', 'gtm.js'])
+        ->and($rule->config['urlMods']['query'])->toBe([['key' => 'amp', 'value' => '1']]);
+});
 
-        $rule = DomainRule::create([
-            'domain' => 'roundtrip.example',
-            'config' => [
-                'fetchStrategies' => 'fetchFromSelenium',
-                'proxy' => true,
-                'idElementRemove' => ['paywall'],
-                'urlMods' => ['query' => [['key' => 'amp', 'value' => '1']]],
-                'excludeGlobalRules' => ['scriptTagRemove' => ['ga.js', 'gtm.js']],
-            ],
-            'is_active' => true,
-        ]);
+it('serves the blocked domains page', function () {
+    $user = User::factory()->create();
+    BlockedDomain::create(['domain' => 'blocked.example', 'reason' => 'test']);
 
-        $component = Livewire::test(EditDomainRule::class, ['record' => $rule->id])
-            ->assertFormSet([
-                'config.fetchStrategies' => 'fetchFromSelenium',
-                'config.proxy' => true,
-                'config.idElementRemove' => ['paywall'],
-            ]);
+    $this->actingAs($user)
+        ->get('/admin/blocked-domains')
+        ->assertOk();
+});
 
-        $hydratedExcludeRows = array_values($component->instance()->form->getState()['config']['excludeGlobalRules'] ?? []);
-        $this->assertSame([['rule_type' => 'scriptTagRemove', 'values' => ['ga.js', 'gtm.js']]], $hydratedExcludeRows);
+it('serves the dmca domains page', function () {
+    $user = User::factory()->create();
+    DmcaDomain::create(['host' => 'dmca.example', 'message' => 'blocked']);
 
-        $component->fillForm([
-            'config.idElementRemove' => ['paywall', 'subscribe-wall'],
-            'config.customStyle' => 'body { display: none; }',
+    $this->actingAs($user)
+        ->get('/admin/dmca-domains')
+        ->assertOk();
+});
+
+it('saves the global rules page and clears the cache', function () {
+    $this->actingAs(User::factory()->create());
+
+    Cache::put('marreta.global_rules', ['stale' => true]);
+
+    Livewire::test(GlobalRules::class)
+        ->fillForm([
+            'config.idElementRemove' => ['cookie-banner'],
+            'config.customStyle' => 'body { color: red; }',
         ])
-            ->call('save')
-            ->assertHasNoFormErrors();
+        ->call('save')
+        ->assertHasNoFormErrors();
 
-        $rule->refresh();
+    $ruleSet = GlobalRuleSet::current();
 
-        $this->assertSame(['paywall', 'subscribe-wall'], $rule->config['idElementRemove']);
-        $this->assertSame('body { display: none; }', $rule->config['customStyle']);
-        $this->assertSame(['ga.js', 'gtm.js'], $rule->config['excludeGlobalRules']['scriptTagRemove']);
-        $this->assertSame([['key' => 'amp', 'value' => '1']], $rule->config['urlMods']['query']);
-    }
+    expect($ruleSet)->not->toBeNull()
+        ->and($ruleSet->config['idElementRemove'])->toBe(['cookie-banner'])
+        ->and($ruleSet->config['customStyle'])->toBe('body { color: red; }')
+        ->and(Cache::has('marreta.global_rules'))->toBeFalse();
+});
 
-    public function test_blocked_domains_page_is_accessible(): void
-    {
-        $user = User::factory()->create();
-        BlockedDomain::create(['domain' => 'blocked.example', 'reason' => 'test']);
+it('shows the cache count widget on the dashboard but not on the home page', function () {
+    $this->actingAs(User::factory()->create());
 
-        $this->actingAs($user)
-            ->get('/admin/blocked-domains')
-            ->assertOk();
-    }
+    $this->get('/admin')->assertOk();
 
-    public function test_dmca_domains_page_is_accessible(): void
-    {
-        $user = User::factory()->create();
-        DmcaDomain::create(['host' => 'dmca.example', 'message' => 'blocked']);
+    Livewire::test(CacheStats::class)
+        ->assertSeeText(__('admin.dashboard.cache_count'));
 
-        $this->actingAs($user)
-            ->get('/admin/dmca-domains')
-            ->assertOk();
-    }
+    $this->get('/')
+        ->assertOk()
+        ->assertDontSee('walls_destroyed')
+        ->assertDontSeeLivewire('stats-counter');
+});
 
-    public function test_global_rules_page_saves_and_clears_cache(): void
-    {
-        $this->actingAs(User::factory()->create());
+it('translates the admin texts to english', function () {
+    app()->setLocale('en');
+    $this->actingAs(User::factory()->create());
 
-        Cache::put('marreta.global_rules', ['stale' => true]);
+    $response = $this->get('/admin/domain-rules')->assertOk();
 
-        Livewire::test(GlobalRules::class)
-            ->fillForm([
-                'config.idElementRemove' => ['cookie-banner'],
-                'config.customStyle' => 'body { color: red; }',
-            ])
-            ->call('save')
-            ->assertHasNoFormErrors();
+    $this->assertStringContainsStringIgnoringCase('domain rules', strip_tags($response->getContent()));
+});
 
-        $ruleSet = GlobalRuleSet::current();
+it('translates the admin texts to spanish', function () {
+    app()->setLocale('es');
+    $this->actingAs(User::factory()->create());
 
-        $this->assertNotNull($ruleSet);
-        $this->assertSame(['cookie-banner'], $ruleSet->config['idElementRemove']);
-        $this->assertSame('body { color: red; }', $ruleSet->config['customStyle']);
-        $this->assertFalse(Cache::has('marreta.global_rules'));
-    }
+    $response = $this->get('/admin/domain-rules')->assertOk();
 
-    public function test_dashboard_shows_cache_count_widget_and_home_page_does_not(): void
-    {
-        $this->actingAs(User::factory()->create());
-
-        $this->get('/admin')->assertOk();
-
-        Livewire::test(CacheStats::class)
-            ->assertSeeText(__('admin.dashboard.cache_count'));
-
-        $this->get('/')
-            ->assertOk()
-            ->assertDontSee('walls_destroyed')
-            ->assertDontSeeLivewire('stats-counter');
-    }
-
-    public function test_admin_texts_are_translated_to_english(): void
-    {
-        app()->setLocale('en');
-        $this->actingAs(User::factory()->create());
-
-        $response = $this->get('/admin/domain-rules')->assertOk();
-        $this->assertStringContainsStringIgnoringCase('domain rules', strip_tags($response->getContent()));
-    }
-
-    public function test_admin_texts_are_translated_to_spanish(): void
-    {
-        app()->setLocale('es');
-        $this->actingAs(User::factory()->create());
-
-        $response = $this->get('/admin/domain-rules')->assertOk();
-        $this->assertStringContainsStringIgnoringCase('reglas de dominio', strip_tags($response->getContent()));
-    }
-}
+    $this->assertStringContainsStringIgnoringCase('reglas de dominio', strip_tags($response->getContent()));
+});
